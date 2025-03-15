@@ -1,4 +1,4 @@
----
+
 
 ## 6. データベース設計
 
@@ -306,5 +306,3 @@ ALTER TABLE event_participants ADD CONSTRAINT fk_event_participants_user
 ALTER TABLE notifications ADD CONSTRAINT fk_notifications_user
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
 ```
-
----
