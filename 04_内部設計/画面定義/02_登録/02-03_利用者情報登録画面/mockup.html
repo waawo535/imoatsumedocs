@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>いもかつ - 利用者情報登録</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #35b995;
+            --primary-dark: #2a9479;
+            --accent: #FF6B6B;
+            --text-dark: #333333;
+            --text-light: #6c757d;
+            --light-bg: #f8f9fc;
+            --white: #FFFFFF;
+            --card-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            --border-radius: 12px;
+        }
+        
+        body {
+            font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+        }
+        
+        .navbar {
+            background-color: var(--white);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            padding: 15px 0;
+        }
+        
+        .nav-link {
+            color: var(--text-dark);
+            font-weight: 500;
+            margin: 0 5px;
+            padding: 8px 16px;
+            border-radius: 30px;
+            transition: all 0.3s;
+        }
+        
+        .nav-link:hover {
+            background-color: rgba(53, 185, 149, 0.1);
+            color: var(--primary);
+        }
+        
+        .nav-link.active {
+            background-color: var(--primary);
+            color: white !important;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            border-radius: 30px;
+            padding: 8px 20px;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(53, 185, 149, 0.2);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(53, 185, 149, 0.3);
+        }
+        
+        .btn-outline-primary {
+            color: var(--primary);
+            border-color: var(--primary);
+            border-radius: 30px;
+            padding: 8px 20px;
+            font-weight: 500;
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(53, 185, 149, 0.3);
+        }
+        
+        .profile-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 40px;
+            margin: 60px auto;
+            max-width: 600px;
+            border: none;
+        }
+        
+        .form-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+        
+        .form-title::after {
+            content: "";
+            display: block;
+            width: 50px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+            margin: 15px auto 0;
+        }
+        
+        .form-control {
+            border-radius: 10px;
+            padding: 12px 15px;
+            border: 1px solid rgba(0,0,0,0.1);
+            background-color: var(--light-bg);
+        }
+        
+        .form-control:focus {
+            box-shadow: 0 0 0 3px rgba(53, 185, 149, 0.2);
+            border-color: var(--primary);
+        }
+        
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .input-group-text {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px 0 0 10px;
+        }
+        
+        .steps-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .step {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: rgba(53, 185, 149, 0.2);
+            color: var(--primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 15px;
+            position: relative;
+        }
+        
+        .step.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .step.completed {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .step.completed::before {
+            content: "\f00c";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+        }
+        
+        .step::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 2px;
+            background-color: rgba(53, 185, 149, 0.2);
+        }
+        
+        .step:last-child::after {
+            display: none;
+        }
+        
+        footer {
+            background-color: var(--white);
+            padding: 60px 0 30px;
+            margin-top: 80px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .footer-title {
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .footer-title::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 1px;
+        }
+        
+        .footer-link {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.2s;
+            display: block;
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-link:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+        
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(53, 185, 149, 0.1);
+            color: var(--primary);
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+        
+        .social-icon:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        /* Animation */
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">いもかつ</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-home"></i> ホーム</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-map-marker-alt"></i> マップ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-book"></i> 図鑑</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-users"></i> コミュニティ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-calendar-alt"></i> イベント</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <a href="#" class="btn btn-outline-primary me-2 active"><i class="fas fa-user-plus"></i> 新規登録</a>
+                    <a href="#" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> ログイン</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Profile Form Section -->
+    <div class="container fade-in">
+        <div class="profile-card">
+            <h2 class="form-title">利用者情報登録</h2>
+            
+            <div class="steps-indicator">
+                <div class="step completed"></div>
+                <div class="step completed"></div>
+                <div class="step active"></div>
+            </div>
+            
+            <div class="text-center mb-4">
+                <p>コミュニティでの表示情報を設定しましょう</p>
+            </div>
+            
+            <form>
+                <div class="mb-3">
+                    <label for="username" class="form-label">ユーザー名</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="username" placeholder="例: イモムシハンター">
+                    </div>
+                    <small class="text-muted">※コミュニティで表示される名前です</small>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="user-id" class="form-label">ユーザーID</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="user-id" placeholder="例: imomushi_hunter">
+                    </div>
+                    <small class="text-muted">※半角英数字とアンダーバー(_)のみ使用可能です</small>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="bio" class="form-label">自己紹介</label>
+                    <textarea class="form-control" id="bio" placeholder="あなたの自己紹介を書いてください（500文字以内）"></textarea>
+                    <small class="text-muted">※イモムシへの興味や活動などを書くと、同じ趣味の仲間が見つかりやすくなります</small>
+                </div>
+                
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg">登録</button>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <a href="#" class="text-primary">
+                        <i class="fas fa-arrow-left"></i> 戻る
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <div class="mt-4">
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-4 mb-md-0">
+                    <h5 class="footer-title">探索する</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link">ホーム</a></li>
+                        <li><a href="#" class="footer-link">マップ</a></li>
+                        <li><a href="#" class="footer-link">図鑑</a></li>
+                        <li><a href="#" class="footer-link">コミュニティ</a></li>
+                        <li><a href="#" class="footer-link">イベント</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 mb-4 mb-md-0">
+                    <h5 class="footer-title">サポート</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link">ヘルプセンター</a></li>
+                        <li><a href="#" class="footer-link">よくある質問</a></li>
+                        <li><a href="#" class="footer-link">お問い合わせ</a></li>
+                        <li><a href="#" class="footer-link">プライバシーポリシー</a></li>
+                        <li><a href="#" class="footer-link">利用規約</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row">
+                <div class="col-12 text-center text-muted">
+                    <p class="mb-0">&copy; 2025 いもかつ All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
