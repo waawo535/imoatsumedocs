@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>いもかつ - イモムシ詳細</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #35b995;
+            --primary-dark: #2a9479;
+            --accent: #FF6B6B;
+            --text-dark: #333333;
+            --text-light: #6c757d;
+            --light-bg: #f8f9fc;
+            --white: #FFFFFF;
+            --card-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            --border-radius: 12px;
+        }
+        
+        body {
+            font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+        }
+        
+        .navbar {
+            background-color: var(--white);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            padding: 15px 0;
+        }
+        
+        .nav-link {
+            color: var(--text-dark);
+            font-weight: 500;
+            margin: 0 5px;
+            padding: 8px 16px;
+            border-radius: 30px;
+            transition: all 0.3s;
+        }
+        
+        .nav-link:hover {
+            background-color: rgba(53, 185, 149, 0.1);
+            color: var(--primary);
+        }
+        
+        .nav-link.active {
+            background-color: var(--primary);
+            color: white !important;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            border-radius: 30px;
+            padding: 8px 20px;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(53, 185, 149, 0.2);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(53, 185, 149, 0.3);
+        }
+        
+        .btn-outline-primary {
+            color: var(--primary);
+            border-color: var(--primary);
+            border-radius: 30px;
+            padding: 8px 20px;
+            font-weight: 500;
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(53, 185, 149, 0.3);
+        }
+        
+        footer {
+            background-color: var(--white);
+            padding: 20px 0;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            margin-top: auto;
+        }
+        
+        .content-wrapper {
+            padding: 30px 0;
+            flex: 1;
+        }
+        
+        .card {
+            border: none;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .card-header {
+            background-color: var(--white);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 15px 20px;
+            font-weight: 600;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .detail-header {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .detail-image-container {
+            position: relative;
+            height: 350px;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+        
+        .detail-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .detail-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            padding: 30px 20px 20px;
+            color: white;
+        }
+        
+        .detail-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .detail-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .detail-actions {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .action-btn:hover {
+            background-color: white;
+            transform: scale(1.1);
+        }
+        
+        .detail-tabs {
+            margin-bottom: 20px;
+        }
+        
+        .detail-tab {
+            padding: 12px 20px;
+            background-color: white;
+            border-radius: 30px;
+            color: var(--text-dark);
+            margin-right: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .detail-tab.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .detail-tab:hover:not(.active) {
+            background-color: rgba(53, 185, 149, 0.1);
+            color: var(--primary);
+        }
+        
+        .info-item {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: flex-start;
+        }
+        
+        .info-icon {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(53, 185, 149, 0.1);
+            color: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .info-content {
+            flex-grow: 1;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }
+        
+        .info-value {
+            color: var(--text-dark);
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            height: 150px;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s;
+        }
+        
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.05);
+        }
+        
+        .map-container {
+            height: 250px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            margin-bottom: 20px;
+            background: url('/api/placeholder/800/400') center/cover no-repeat;
+        }
+        
+        .badge-custom {
+            background-color: rgba(53, 185, 149, 0.1);
+            color: var(--primary);
+            padding: 5px 12px;
+            border-radius: 20px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            display: inline-block;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+        
+        .lifecycle-progress {
+            display: flex;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .lifecycle-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .lifecycle-step::before {
+            content: '';
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(53, 185, 149, 0.1);
+            display: block;
+            margin: 0 auto 10px;
+        }
+        
+        .lifecycle-step.active::before {
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            content: '\f00c';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+        }
+        
+        .lifecycle-step.current::before {
+            border: 2px solid var(--primary);
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            content: '!';
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .lifecycle-progress::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: rgba(53, 185, 149, 0.1);
+            z-index: 1;
+            transform: translateY(-50%);
+        }
+        
+        .section-title {
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .related-item {
+            display: flex;
+            padding: 10px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .related-item:hover {
+            background-color: rgba(53, 185, 149, 0.05);
+        }
+        
+        .related-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+        
+        .comment-item {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        
+        .comment-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        
+        .comment-content {
+            flex-grow: 1;
+            background-color: rgba(0,0,0,0.03);
+            padding: 10px 15px;
+            border-radius: 12px;
+            position: relative;
+        }
+        
+        .comment-content::before {
+            content: '';
+            position: absolute;
+            left: -7px;
+            top: 15px;
+            width: 0;
+            height: 0;
+            border-top: 7px solid transparent;
+            border-bottom: 7px solid transparent;
+            border-right: 7px solid rgba(0,0,0,0.03);
+        }
+        
+        .comment-name {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        
+        .comment-text {
+            margin-bottom: 5px;
+        }
+        
+        .comment-date {
+            text-align: right;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+        
+        .btn-rounded {
+            border-radius: 30px;
+            padding: 8px 20px;
+        }
+        
+        /* Animation */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* タブ管理用カスタムスタイル */
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* タブボタンのスタイル */
+        .detail-tabs {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .detail-tab {
+            padding: 12px 20px;
+            background-color: white;
+            border-radius: 30px;
+            color: var(--text-dark, #333333);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            white-space: nowrap;
+        }
+
+        .detail-tab.active {
+            background-color: var(--primary, #35b995);
+            color: white;
+            box-shadow: 0 4px 10px rgba(53, 185, 149, 0.2);
+        }
+
+        .detail-tab:hover:not(.active) {
+            background-color: rgba(53, 185, 149, 0.1);
+            color: var(--primary, #35b995);
+            transform: translateY(-2px);
+        }
+
+        /* タブコンテンツのスタイル */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* アニメーション */
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(10px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        /* レスポンシブ対応 */
+        @media (max-width: 768px) {
+            .detail-tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+                padding-bottom: 5px;
+                margin-bottom: 15px;
+            }
+            
+            .detail-tab {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* オプション: 画像モーダル用スタイル */
+        .image-modal {
+            display: flex;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .modal-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">いもかつ</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-home"></i> ホーム</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-map-marker-alt"></i> マップ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="fas fa-book"></i> 図鑑</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-users"></i> コミュニティ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-calendar-alt"></i> イベント</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <div class="dropdown">
+                        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle"></i> イモ好き太郎
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user"></i> プロフィール</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog"></i> 設定</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> ログアウト</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="content-wrapper">
+        <div class="container">
+            <!-- Detail Header with Image -->
+            <div class="detail-header fade-in">
+                <div class="detail-image-container">
+                    <img src="/api/placeholder/1200/600" class="detail-image" alt="アゲハの幼虫">
+                    <div class="detail-overlay">
+                        <h1 class="detail-title">アゲハ</h1>
+                        <p class="detail-subtitle">Papilio xuthus</p>
+                    </div>
+                    <div class="detail-actions">
+                        <div class="action-btn" data-bs-toggle="tooltip" title="お気に入りに追加">
+                            <i class="far fa-heart"></i>
+                        </div>
+                        <div class="action-btn" data-bs-toggle="tooltip" title="シェア">
+                            <i class="fas fa-share-alt"></i>
+                        </div>
+                        <div class="action-btn" data-bs-toggle="tooltip" title="編集">
+                            <i class="fas fa-pencil-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tab Navigation -->
+            <div class="detail-tabs fade-in">
+                <button class="detail-tab active" data-tab="basic-info">基本情報</button>
+                <button class="detail-tab" data-tab="ecology">生態情報</button>
+                <button class="detail-tab" data-tab="discovery">発見記録</button>
+                <button class="detail-tab" data-tab="comments">コメント</button>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- Basic Info Tab -->
+                    <div class="tab-content active" id="basic-info">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="section-title"><i class="fas fa-info-circle"></i>基本情報</h4>
+                                
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <div class="info-item">
+                                            <div class="info-icon">
+                                                <i class="fas fa-tag"></i>
+                                            </div>
+                                            <div class="info-content">
+                                                <div class="info-label">分類</div>
+                                                <div class="info-value">チョウ目アゲハチョウ科</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="info-item">
+                                            <div class="info-icon">
+                                                <i class="fas fa-ruler"></i>
+                                            </div>
+                                            <div class="info-content">
+                                                <div class="info-label">大きさ（終齢幼虫）</div>
+                                                <div class="info-value">約45mm</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <div class="info-item">
+                                            <div class="info-icon">
+                                                <i class="fas fa-leaf"></i>
+                                            </div>
+                                            <div class="info-content">
+                                                <div class="info-label">食草・食樹</div>
+                                                <div class="info-value">ミカン、サンショウ、カラタチなどのミカン科植物</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="info-item">
+                                            <div class="info-icon">
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </div>
+                                            <div class="info-content">
+                                                <div class="info-label">発生時期</div>
+                                                <div class="info-value">4月〜10月（年2〜3回発生）</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <h5 class="mb-3">特徴</h5>
+                                <p>アゲハの幼虫は若齢期には鳥の糞に擬態した黒褐色と白色の模様を持ちますが、成長すると緑色の体色に黒と橙色の横帯を持つ姿に変化します。体の前部は膨らんでおり、刺激を受けると頭部から臭角（しゅうかく）と呼ばれるY字型の器官を出して身を守ります。</p>
+                                
+                                <h5 class="mb-3">分布</h5>
+                                <p>日本全国に広く分布しており、特に本州、四国、九州で一般的に見られます。都市部の庭園や公園でも観察できる身近な昆虫です。</p>
+                                
+                                <div class="gallery">
+                                    <div class="gallery-item">
+                                        <img src="/api/placeholder/300/300" class="gallery-img" alt="アゲハ幼虫1">
+                                    </div>
+                                    <div class="gallery-item">
+                                        <img src="/api/placeholder/300/300" class="gallery-img" alt="アゲハ幼虫2">
+                                    </div>
+                                    <div class="gallery-item">
+                                        <img src="/api/placeholder/300/300" class="gallery-img" alt="アゲハ幼虫3">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Lifecycle -->
+                        <div class="card fade-in">
+                            <div class="card-header">
+                                <i class="fas fa-sync-alt me-2"></i>ライフサイクル
+                            </div>
+                            <div class="card-body">
+                                <div class="lifecycle-progress">
+                                    <div class="lifecycle-step active">
+                                        <div>卵</div>
+                                    </div>
+                                    <div class="lifecycle-step active">
+                                        <div>1〜2齢幼虫</div>
+                                    </div>
+                                    <div class="lifecycle-step active">
+                                        <div>3齢幼虫</div>
+                                    </div>
+                                    <div class="lifecycle-step current">
+                                        <div>4〜5齢幼虫</div>
+                                    </div>
+                                    <div class="lifecycle-step">
+                                        <div>さなぎ</div>
+                                    </div>
+                                    <div class="lifecycle-step">
+                                        <div>成虫</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="alert alert-success">
+                                    <i class="fas fa-info-circle me-2"></i>現在4〜5齢幼虫の時期です。今後1〜2週間でさなぎになる予定です。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Ecology Tab (hidden by default) -->
+                    <div class="tab-content" id="ecology">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="section-title"><i class="fas fa-leaf"></i>生態情報</h4>
+                                
+                                <h5 class="mb-3">生息環境</h5>
+                                <p>ミカン科の植物がある場所であれば、都市部の庭園から郊外の農地、山地まで幅広い環境で生息しています。特に公園や家庭の庭など、人間の生活圏に近い場所でも頻繁に見られます。</p>
+                                
+                                <h5 class="mb-3">行動</h5>
+                                <p>幼虫は葉の上や葉裏で休息し、活発に葉を食べます。終齢幼虫になると体色が大きく変化し、さなぎになる前に食草を離れて適当な場所を探し回ることがあります。さなぎは枝や壁などに体を固定し、腹部を糸で支えて垂直または斜めにぶら下がった状態になります。</p>
+                                
+                                <div class="map-container"></div>
+                                
+                                <h5 class="mb-3">季節的な出現パターン</h5>
+                                <p>関東地方では4月から10月にかけて幼虫が見られ、特に5〜6月と8〜9月に多く観察されます。年間で2〜3回の世代交代を繰り返し、成虫は冬季に蛹の状態で越冬します。</p>
+                                
+                                <h5 class="mb-3">保全状況</h5>
+                                <p>アゲハは日本では広く見られる一般的な種であり、現時点では特に保全上の懸念はありません。しかし、生息地の開発や農薬の使用などにより、局所的な個体数の減少が報告されている場合もあります。</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Discovery Tab (hidden by default) -->
+                    <div class="tab-content" id="discovery">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="section-title"><i class="fas fa-map-marker-alt"></i>発見記録</h4>
+                                
+                                <div class="info-item">
+                                    <div class="info-icon">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div class="info-content">
+                                        <div class="info-label">発見者</div>
+                                        <div class="info-value">山田太郎</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="info-item">
+                                    <div class="info-icon">
+                                        <i class="fas fa-calendar"></i>
+                                    </div>
+                                    <div class="info-content">
+                                        <div class="info-label">発見日時</div>
+                                        <div class="info-value">2025年3月12日 14:30</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="info-item">
+                                    <div class="info-icon">
+                                        <i class="fas fa-map-pin"></i>
+                                    </div>
+                                    <div class="info-content">
+                                        <div class="info-label">発見場所</div>
+                                        <div class="info-value">東京都新宿区西新宿 自宅の庭</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="map-container mb-4"></div>
+                                
+                                <div class="info-item">
+                                    <div class="info-icon">
+                                        <i class="fas fa-sun"></i>
+                                    </div>
+                                    <div class="info-content">
+                                        <div class="info-label">環境情報</div>
+                                        <div class="info-value">
+                                            <p>晴れ、気温約20度。自宅の庭のミカンの木の若葉に複数匹がいました。</p>
+                                            <div>
+                                                <span class="badge-custom">晴天</span>
+                                                <span class="badge-custom">20℃</span>
+                                                <span class="badge-custom">都市部</span>
+                                                <span class="badge-custom">庭・公園</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <h5 class="mb-3 mt-4">他の発見記録</h5>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>日付</th>
+                                                <th>場所</th>
+                                                <th>撮影者</th>
+                                                <th>ステージ</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>2025/3/10</td>
+                                                <td>新宿御苑</td>
+                                                <td>山田太郎</td>
+                                                <td>幼虫（4齢）</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2025/3/8</td>
+                                                <td>世田谷区砧公園</td>
+                                                <td>佐藤花子</td>
+                                                <td>幼虫（3齢）</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2025/3/5</td>
+                                                <td>練馬区石神井公園</td>
+                                                <td>鈴木一郎</td>
+                                                <td>幼虫（5齢）</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2025/3/2</td>
+                                                <td>江東区木場公園</td>
+                                                <td>高橋次郎</td>
+                                                <td>幼虫（4齢）</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Comments Tab (hidden by default) -->
+                    <div class="tab-content" id="comments">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="section-title"><i class="fas fa-comments"></i>コメント</h4>
+                                
+                                <div class="comment-item">
+                                    <img src="/api/placeholder/80/80" class="comment-avatar" alt="ユーザーアイコン">
+                                    <div class="comment-content">
+                                        <div class="comment-name">佐藤花子</div>
+                                        <div class="comment-text">先週もアゲハの幼虫を見つけました！同じミカンの木に5匹ほどいましたよ。きっと今年はたくさん見られそうですね。</div>
+                                        <div class="comment-date">2025/3/15 16:45</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="comment-item">
+                                    <img src="/api/placeholder/80/80" class="comment-avatar" alt="ユーザーアイコン">
+                                    <div class="comment-content">
+                                        <div class="comment-name">鈴木一郎</div>
+                                        <div class="comment-text">臭角を出している様子も撮影できましたか？興味深い防御行動なので、ぜひ観察してみてください。</div>
+                                        <div class="comment-date">2025/3/14 10:22</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="comment-item">
+                                    <img src="/api/placeholder/80/80" class="comment-avatar" alt="ユーザーアイコン">
+                                    <div class="comment-content">
+                                        <div class="comment-name">田中教授</div>
+                                        <div class="comment-text">素晴らしい標本ですね。この地域では少し早い発生かもしれません。気候変動の影響で発生時期が変化している可能性があります。継続的な観察を続けていただければ助かります。</div>
+                                        <div class="comment-date">2025/3/13 09:10</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4">
+                                    <h5 class="mb-3">コメントを追加</h5>
+                                    <textarea class="form-control mb-3" rows="3" placeholder="コメントを入力..."></textarea>
+                                    <button class="btn btn-primary btn-rounded"><i class="fas fa-paper-plane me-2"></i>投稿する</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        /**
+         * いもかつ - タブ切り替え機能
+         * イモムシ詳細画面のためのタブ切り替え機能を実装するJavaScript
+         */
+        document.addEventListener('DOMContentLoaded', function() {
+            // タブ要素とコンテンツ要素の取得
+            const tabs = document.querySelectorAll('.detail-tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            // 各タブにクリックイベントリスナーを追加
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // 全てのタブからアクティブクラスを削除
+                    tabs.forEach(t => {
+                        t.classList.remove('active');
+                    });
+                    
+                    // 全てのコンテンツを非表示（アクティブクラスを削除）
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // クリックされたタブにアクティブクラスを追加
+                    this.classList.add('active');
+                    
+                    // 対応するコンテンツを表示（アクティブクラスを追加）
+                    const tabId = this.getAttribute('data-tab');
+                    const targetContent = document.getElementById(tabId);
+                    if (targetContent) {
+                        targetContent.classList.add('active');
+                    }
+                });
+            });
+            
+            // 追加の機能: URLハッシュに基づいたタブ切り替え
+            function handleHashChange() {
+                const hash = window.location.hash.substring(1); // '#'を除去
+                if (hash) {
+                    // 対応するタブを探す
+                    const targetTab = document.querySelector(`.detail-tab[data-tab="${hash}"]`);
+                    if (targetTab) {
+                        // 対応するタブをクリック
+                        targetTab.click();
+                    }
+                }
+            }
+            
+            // ページロード時とハッシュ変更時に処理を実行
+            window.addEventListener('hashchange', handleHashChange);
+            
+            // 初期ロード時：ハッシュがある場合は対応するタブを表示、なければデフォルトタブを表示
+            if (window.location.hash) {
+                handleHashChange();
+            } else {
+                // デフォルトタブ（最初のタブ）をアクティブに設定
+                const defaultTab = document.querySelector('.detail-tab');
+                if (defaultTab) {
+                    defaultTab.click();
+                }
+            }
+            
+            // お気に入りボタン機能
+            const favoriteBtn = document.querySelector('.action-btn:first-child');
+            if (favoriteBtn) {
+                favoriteBtn.addEventListener('click', function(e) {
+                    e.preventDefault(); // リンクのデフォルト動作を防止
+                    
+                    const icon = this.querySelector('i');
+                    if (icon.classList.contains('far')) {
+                        // お気に入り追加
+                        icon.classList.remove('far');
+                        icon.classList.add('fas');
+                        icon.style.color = '#FF6B6B';
+                        
+                        // ここにお気に入り追加のAPIリクエストなどのコードを追加できます
+                        console.log('お気に入りに追加しました');
+                    } else {
+                        // お気に入り解除
+                        icon.classList.remove('fas');
+                        icon.classList.add('far');
+                        icon.style.color = '';
+                        
+                        // ここにお気に入り解除のAPIリクエストなどのコードを追加できます
+                        console.log('お気に入りを解除しました');
+                    }
+                });
+            }
+            
+            // ギャラリー画像のサムネイルクリック処理
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            galleryItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const imgSrc = this.querySelector('img').src;
+                    
+                    // ここに大きな画像を表示するモーダル表示のコードを実装できます
+                    // 実装例：モーダル表示のプレースホルダー
+                    console.log('画像を拡大表示: ' + imgSrc);
+                    
+                    // モーダル表示の実装例（コメントアウト）
+                    /*
+                    const modal = document.createElement('div');
+                    modal.classList.add('image-modal');
+                    modal.innerHTML = `
+                        <div class="modal-content">
+                            <span class="close-modal">&times;</span>
+                            <img src="${imgSrc}" alt="拡大画像">
+                        </div>
+                    `;
+                    document.body.appendChild(modal);
+                    
+                    // モーダルを閉じる処理
+                    modal.querySelector('.close-modal').addEventListener('click', function() {
+                        document.body.removeChild(modal);
+                    });
+                    */
+                });
+            });
+            
+            // ツールチップ初期化（Bootstrapを使用している場合）
+            if (typeof bootstrap !== 'undefined') {
+                const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                tooltipTriggerList.map(function(tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>いもかつ - イモムシ登録</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #35b995;
+            --primary-dark: #2a9479;
+            --accent: #FF6B6B;
+            --text-dark: #333333;
+            --text-light: #6c757d;
+            --light-bg: #f8f9fc;
+            --white: #FFFFFF;
+            --card-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            --border-radius: 12px;
+        }
+        
+        body {
+            font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+        }
+        
+        .navbar {
+            background-color: var(--white);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            padding: 15px 0;
+        }
+        
+        .nav-link {
+            color: var(--text-dark);
+            font-weight: 500;
+            margin: 0 5px;
+            padding: 8px 16px;
+            border-radius: 30px;
+            transition: all 0.3s;
+        }
+        
+        .nav-link:hover {
+            background-color: rgba(53, 185, 149, 0.1);
+            color: var(--primary);
+        }
+        
+        .nav-link.active {
+            background-color: var(--primary);
+            color: white !important;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            border-radius: 30px;
+            padding: 8px 20px;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(53, 185, 149, 0.2);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(53, 185, 149, 0.3);
+        }
+        
+        .btn-outline-primary {
+            color: var(--primary);
+            border-color: var(--primary);
+            border-radius: 30px;
+            padding: 8px 20px;
+            font-weight: 500;
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(53, 185, 149, 0.3);
+        }
+        
+        footer {
+            background-color: var(--white);
+            padding: 20px 0;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            margin-top: auto;
+        }
+        
+        .page-title {
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .content-wrapper {
+            padding: 30px 0;
+            flex: 1;
+        }
+        
+        .card {
+            border: none;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .card-header {
+            background-color: var(--white);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 15px 20px;
+            font-weight: 600;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+        
+        .form-control, .form-select {
+            border-radius: 8px;
+            padding: 10px 15px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(53, 185, 149, 0.2);
+        }
+        
+        .photo-upload-area {
+            border: 2px dashed rgba(0,0,0,0.1);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .photo-upload-area:hover {
+            border-color: var(--primary);
+            background-color: rgba(53, 185, 149, 0.05);
+        }
+        
+        .upload-icon {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .preview-image {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: var(--border-radius);
+            display: none;
+            margin: 0 auto 15px;
+        }
+        
+        .privacy-option {
+            display: inline-block;
+            padding: 8px 12px;
+            margin-right: 10px;
+            background-color: #f1f1f1;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .privacy-option.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .action-buttons {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .map-preview {
+            height: 200px;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+            background: url('/api/placeholder/800/400') center/cover no-repeat;
+        }
+        
+        /* Animation */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .upload-methods {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .upload-method {
+            margin: 0 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .upload-method i {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .suggestions-box {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            background-color: rgba(53, 185, 149, 0.05);
+            border: 1px solid rgba(53, 185, 149, 0.2);
+        }
+        
+        .suggestion-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+        
+        .suggestion-item:hover {
+            background-color: rgba(53, 185, 149, 0.1);
+        }
+        
+        .suggestion-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+        
+        .suggestion-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .suggestion-info {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+        
+        .confidence {
+            font-size: 0.8rem;
+            margin-left: auto;
+            background-color: rgba(53, 185, 149, 0.1);
+            color: var(--primary);
+            padding: 3px 8px;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">いもかつ</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-home"></i> ホーム</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-map-marker-alt"></i> マップ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-book"></i> 図鑑</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-users"></i> コミュニティ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-calendar-alt"></i> イベント</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <div class="dropdown">
+                        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle"></i> イモ好き太郎
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user"></i> プロフィール</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog"></i> 設定</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> ログアウト</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="content-wrapper">
+        <div class="container">
+            <h2 class="page-title">新しいイモムシを登録</h2>
+            
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Photo Upload -->
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <i class="fas fa-camera me-2"></i>写真のアップロード
+                        </div>
+                        <div class="card-body">
+                            <div class="photo-upload-area" id="dropArea">
+                                <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                                <img id="preview" src="" class="preview-image">
+                                <h5>写真をアップロード</h5>
+                                <p class="text-muted">ここにファイルをドラッグ＆ドロップするか、クリックして選択</p>
+                                <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                                
+                                <div class="upload-methods">
+                                    <div class="upload-method">
+                                        <i class="fas fa-camera"></i>
+                                        <div>カメラで撮影</div>
+                                    </div>
+                                    <div class="upload-method">
+                                        <i class="fas fa-images"></i>
+                                        <div>ライブラリから選択</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Auto detection suggestions (shown after upload) -->
+                            <div class="suggestions-box">
+                                <h6 class="mb-3"><i class="fas fa-magic me-2"></i>AI判別結果</h6>
+                                <div class="suggestion-item">
+                                    <img src="/api/placeholder/80/80" class="suggestion-img" alt="アゲハ">
+                                    <div>
+                                        <div class="suggestion-name">アゲハ</div>
+                                        <div class="suggestion-info">春〜夏、柑橘類</div>
+                                    </div>
+                                    <div class="confidence">95%</div>
+                                </div>
+                                <div class="suggestion-item">
+                                    <img src="/api/placeholder/80/80" class="suggestion-img" alt="クロアゲハ">
+                                    <div>
+                                        <div class="suggestion-name">クロアゲハ</div>
+                                        <div class="suggestion-info">春〜夏、柑橘類</div>
+                                    </div>
+                                    <div class="confidence">82%</div>
+                                </div>
+                                <div class="suggestion-item">
+                                    <img src="/api/placeholder/80/80" class="suggestion-img" alt="その他">
+                                    <div>
+                                        <div class="suggestion-name">その他の種類</div>
+                                        <div class="suggestion-info">手動で入力する</div>
+                                    </div>
+                                    <div class="confidence">-</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detail Form -->
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <i class="fas fa-info-circle me-2"></i>基本情報
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label for="caterpillarType" class="form-label">種類</label>
+                                <input type="text" class="form-control" id="caterpillarType" placeholder="例：アゲハ" value="アゲハ">
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="discoveryDate" class="form-label">発見日時</label>
+                                    <input type="datetime-local" class="form-control" id="discoveryDate" value="2025-03-16T10:30">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="caterpillarSize" class="form-label">大きさ (約)</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="caterpillarSize" placeholder="長さ" value="45">
+                                        <span class="input-group-text">mm</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="discoveryLocation" class="form-label">発見場所</label>
+                                <div class="map-preview" id="locationMap"></div>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="discoveryLocation" placeholder="住所または場所の名前" value="東京都新宿区西新宿">
+                                    <button class="btn btn-outline-primary" type="button"><i class="fas fa-map-marker-alt"></i></button>
+                                </div>
+                                <div class="form-text">地図をクリックして正確な位置を指定できます</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Environment Info -->
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <i class="fas fa-leaf me-2"></i>環境情報
+                        </div>
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="habitat" class="form-label">生息環境</label>
+                                    <select class="form-select" id="habitat">
+                                        <option>選択してください</option>
+                                        <option selected>庭・公園</option>
+                                        <option>森林</option>
+                                        <option>草原</option>
+                                        <option>農地</option>
+                                        <option>水辺</option>
+                                        <option>その他</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="foodPlant" class="form-label">食草・食樹</label>
+                                    <input type="text" class="form-control" id="foodPlant" placeholder="例：ミカン" value="ミカンの木">
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="environmentNotes" class="form-label">環境メモ</label>
+                                <textarea class="form-control" id="environmentNotes" rows="3" placeholder="天候や周辺環境などの特記事項">晴れ、気温約20度。自宅の庭のミカンの木に複数匹いました。</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Privacy & Notes -->
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <i class="fas fa-cog me-2"></i>公開設定とメモ
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label">公開範囲</label>
+                                <div>
+                                    <span class="privacy-option active">公開</span>
+                                    <span class="privacy-option">フォロワーのみ</span>
+                                    <span class="privacy-option">非公開</span>
+                                </div>
+                                <div class="form-text">「公開」に設定すると、位置情報が地図上に表示されます</div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="personalNotes" class="form-label">メモ (非公開)</label>
+                                <textarea class="form-control" id="personalNotes" rows="2" placeholder="個人的なメモやリマインダー"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="action-buttons fade-in">
+                        <button class="btn btn-outline-primary"><i class="fas fa-save me-2"></i>下書き保存</button>
+                        <button class="btn btn-primary"><i class="fas fa-check me-2"></i>登録する</button>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <!-- Tips -->
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <i class="fas fa-lightbulb me-2"></i>登録のヒント
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <h6><i class="fas fa-camera text-primary me-2"></i>写真撮影のコツ</h6>
+                                <p class="small">明るい自然光の下で、できるだけ近くで撮影しましょう。全体像がわかる写真と、特徴的な模様が見える接写の両方があるとベストです。</p>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <h6><i class="fas fa-map-marked-alt text-primary me-2"></i>位置情報について</h6>
+                                <p class="small">発見場所は自動的に現在地から取得されますが、手動で修正することもできます。希少種の保護のため、公開範囲を制限することも検討してください。</p>
+                            </div>
+                            
+                            <div>
+                                <h6><i class="fas fa-book-open text-primary me-2"></i>種類がわからないときは</h6>
+                                <p class="small">AIによる自動判別の他に、「図鑑」を参照するか、「コミュニティ」に質問することもできます。専門家や熱心な愛好家からアドバイスが得られるでしょう。</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Submissions -->
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <i class="fas fa-history me-2"></i>最近の登録
+                        </div>
+                        <div class="card-body p-0">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex align-items-center">
+                                    <img src="/api/placeholder/60/60" class="rounded me-3" alt="イモムシ写真">
+                                    <div>
+                                        <div class="fw-bold">ナミアゲハ</div>
+                                        <div class="small text-muted">2025/3/10 新宿御苑</div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex align-items-center">
+                                    <img src="/api/placeholder/60/60" class="rounded me-3" alt="イモムシ写真">
+                                    <div>
+                                        <div class="fw-bold">モンシロチョウ</div>
+                                        <div class="small text-muted">2025/3/5 自宅庭</div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex align-items-center">
+                                    <img src="/api/placeholder/60/60" class="rounded me-3" alt="イモムシ写真">
+                                    <div>
+                                        <div class="fw-bold">ウラギンシジミ</div>
+                                        <div class="small text-muted">2025/2/28 代々木公園</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center text-muted">
+                    <p class="mb-0">&copy; 2025 いもかつ All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Photo upload preview
+            const dropArea = document.getElementById('dropArea');
+            const fileInput = document.getElementById('fileInput');
+            const preview = document.getElementById('preview');
+            
+            dropArea.addEventListener('click', function() {
+                fileInput.click();
+            });
+            
+            fileInput.addEventListener('change', function() {
+                displayImage(this);
+            });
+            
+            dropArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                dropArea.style.borderColor = 'var(--primary)';
+                dropArea.style.backgroundColor = 'rgba(53, 185, 149, 0.05)';
+            });
+            
+            dropArea.addEventListener('dragleave', function() {
+                dropArea.style.borderColor = 'rgba(0,0,0,0.1)';
+                dropArea.style.backgroundColor = 'rgba(255,255,255,0.7)';
+            });
+            
+            dropArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                dropArea.style.borderColor = 'rgba(0,0,0,0.1)';
+                dropArea.style.backgroundColor = 'rgba(255,255,255,0.7)';
+                
+                if (e.dataTransfer.files.length) {
+                    fileInput.files = e.dataTransfer.files;
+                    displayImage(fileInput);
+                }
+            });
+            
+            function displayImage(input) {
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                    }
+                    
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            
+            // Privacy options
+            const privacyOptions = document.querySelectorAll('.privacy-option');
+            privacyOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    privacyOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // For demo: Simulate an image already uploaded
+            setTimeout(() => {
+                preview.src = '/api/placeholder/400/300';
+                preview.style.display = 'block';
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

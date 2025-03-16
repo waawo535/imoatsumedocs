@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>いもかつ - イモムシマップ</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #35b995;
+            --primary-dark: #2a9479;
+            --accent: #FF6B6B;
+            --text-dark: #333333;
+            --text-light: #6c757d;
+            --light-bg: #f8f9fc;
+            --white: #FFFFFF;
+            --card-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            --border-radius: 12px;
+        }
+        
+        body {
+            font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+        }
+        
+        .navbar {
+            background-color: var(--white);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            padding: 15px 0;
+        }
+        
+        .nav-link {
+            color: var(--text-dark);
+            font-weight: 500;
+            margin: 0 5px;
+            padding: 8px 16px;
+            border-radius: 30px;
+            transition: all 0.3s;
+        }
+        
+        .nav-link:hover {
+            background-color: rgba(53, 185, 149, 0.1);
+            color: var(--primary);
+        }
+        
+        .nav-link.active {
+            background-color: var(--primary);
+            color: white !important;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            border-radius: 30px;
+            padding: 8px 20px;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(53, 185, 149, 0.2);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(53, 185, 149, 0.3);
+        }
+        
+        .btn-outline-primary {
+            color: var(--primary);
+            border-color: var(--primary);
+            border-radius: 30px;
+            padding: 8px 20px;
+            font-weight: 500;
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(53, 185, 149, 0.3);
+        }
+        
+        #map-container {
+            flex: 1;
+            position: relative;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+        
+        #caterpillar-map {
+            width: 100%;
+            height: 100%;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+        
+        .map-controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            box-shadow: var(--card-shadow);
+            max-width: 350px;
+            width: 100%;
+        }
+        
+        .map-filter {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            box-shadow: var(--card-shadow);
+            max-width: 350px;
+            width: 100%;
+        }
+        
+        .privacy-level-selector {
+            margin-top: 15px;
+        }
+        
+        .privacy-option {
+            display: inline-block;
+            padding: 8px 12px;
+            margin-right: 10px;
+            background-color: #f1f1f1;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .privacy-option.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .caterpillar-info {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            z-index: 10;
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            box-shadow: var(--card-shadow);
+            max-width: 350px;
+            width: 100%;
+            display: none; /* Initially hidden, shown when marker is clicked */
+        }
+        
+        .info-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+        
+        .caterpillar-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+            margin-bottom: 10px;
+        }
+        
+        .custom-marker {
+            width: 30px;
+            height: 30px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            border: 3px solid white;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .filter-tag {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 5px 5px 5px 0;
+            background-color: rgba(53, 185, 149, 0.1);
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+        
+        .filter-tag:hover, .filter-tag.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .section-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+        
+        .add-discovery-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .add-discovery-btn:hover {
+            transform: scale(1.1);
+            background-color: var(--primary-dark);
+        }
+        
+        footer {
+            background-color: var(--white);
+            padding: 20px 0;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        /* Animation */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Custom Map Style */
+        .custom-map {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+        
+        /* Mock Map Images - For demonstration */
+        .mock-map {
+            background: url('/api/placeholder/1200/800') center/cover no-repeat;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(0,0,0,0.1);
+            font-size: 3rem;
+            font-weight: bold;
+            border-radius: var(--border-radius);
+        }
+        
+        .marker {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background-color: var(--primary);
+            border: 3px solid white;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+        
+        .marker:hover {
+            transform: scale(1.2);
+        }
+        
+        .marker.rare {
+            background-color: #FF6B6B;
+        }
+        
+        .marker.common {
+            background-color: #5BC0DE;
+        }
+        
+        .marker.new {
+            background-color: #F0AD4E;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">いもかつ</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-home"></i> ホーム</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="fas fa-map-marker-alt"></i> マップ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-book"></i> 図鑑</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-users"></i> コミュニティ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-calendar-alt"></i> イベント</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <a href="#" class="btn btn-outline-primary me-2"><i class="fas fa-user-plus"></i> 新規登録</a>
+                    <a href="#" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> ログイン</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Map Container -->
+    <div id="map-container" class="container">
+        <div id="caterpillar-map" class="custom-map">
+            <!-- This would be replaced with actual Google Maps API implementation -->
+            <div class="mock-map">
+                <!-- Demo Markers - These would be dynamically generated with API -->
+                <div class="marker common" style="top: 30%; left: 20%;" onclick="showCaterpillarInfo('アゲハモドキ', 'common')"></div>
+                <div class="marker common" style="top: 40%; left: 35%;" onclick="showCaterpillarInfo('ウラギンシジミ', 'common')"></div>
+                <div class="marker rare" style="top: 60%; left: 70%;" onclick="showCaterpillarInfo('オオゴマダラ', 'rare')"></div>
+                <div class="marker common" style="top: 50%; left: 50%;" onclick="showCaterpillarInfo('モンシロチョウ', 'common')"></div>
+                <div class="marker new" style="top: 25%; left: 65%;" onclick="showCaterpillarInfo('ヤママユ', 'new')"></div>
+                <div class="marker rare" style="top: 75%; left: 40%;" onclick="showCaterpillarInfo('ミヤマカラスアゲハ', 'rare')"></div>
+            </div>
+        </div>
+        
+        <!-- Map Controls -->
+        <div class="map-controls fade-in">
+            <div class="section-title">マップ検索</div>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="場所、種類、季節など">
+                <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+            </div>
+              <div class="section-title">フィルター</div>
+                    <div class="filter-tags">
+                        <div class="section-title small mt-3 mb-1">発見日時</div>
+                        <div class="filter-tag active">すべて</div>
+                        <div class="filter-tag">今月</div>
+                        <div class="filter-tag">今季</div>
+                        <div class="filter-tag">今年</div>
+                    </div>
+                </div>
+        </div>
+        
+        <!-- Caterpillar Info Panel (shown when marker is clicked) -->
+        <div class="caterpillar-info fade-in" id="caterpillar-info-panel">
+            <div class="info-close" onclick="hideCaterpillarInfo()"><i class="fas fa-times"></i></div>
+            <img id="caterpillar-image" src="/api/placeholder/300/150" class="caterpillar-image" alt="イモムシの写真">
+            <h5 id="caterpillar-name">アゲハモドキ</h5>
+            <div class="d-flex justify-content-between mb-2">
+                <span id="caterpillar-date" class="text-muted small"><i class="fas fa-calendar"></i> 2025/3/12</span>
+            </div>
+            <p id="caterpillar-description" class="small mb-2">キアゲハに似た黄色と黒のストライプを持つ、春によく見られるイモムシです。セリ科の植物を好みます。</p>
+            <div class="d-flex align-items-center mb-3">
+                <span id="caterpillar-finder" class="small">山田太郎</span>
+            </div>
+            <div class="d-flex justify-content-between">
+                <button class="btn btn-sm btn-outline-primary"><i class="fas fa-book"></i> 図鑑で見る</button>
+                <button class="btn btn-sm btn-outline-primary"><i class="fas fa-directions"></i> ルート案内</button>
+            </div>
+        </div>
+        
+        <!-- Add Discovery Button -->
+        <button class="add-discovery-btn" data-bs-toggle="tooltip" data-bs-placement="left" title="新しい発見を追加">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-auto">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center text-muted">
+                    <p class="mb-0">&copy; 2025 いもかつ All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Demo JavaScript for the mockup functionality
+        function showCaterpillarInfo(name, type) {
+            const infoPanel = document.getElementById('caterpillar-info-panel');
+            const caterpillarName = document.getElementById('caterpillar-name');
+            
+            caterpillarName.textContent = name;
+            
+            // Show the info panel
+            infoPanel.style.display = 'block';
+        }
+        
+        function hideCaterpillarInfo() {
+            const infoPanel = document.getElementById('caterpillar-info-panel');
+            infoPanel.style.display = 'none';
+        }
+        
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+        
+        // Privacy level selector
+        const privacyOptions = document.querySelectorAll('.privacy-option');
+        privacyOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                privacyOptions.forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // Filter tags
+        const filterTags = document.querySelectorAll('.filter-tag');
+        filterTags.forEach(tag => {
+            tag.addEventListener('click', function() {
+                // Find siblings with the same category (previous element's text)
+                const category = this.previousElementSibling;
+                if (category && category.classList.contains('section-title')) {
+                    let sibling = category.nextElementSibling;
+                    while (sibling && sibling.classList.contains('filter-tag')) {
+                        sibling.classList.remove('active');
+                        sibling = sibling.nextElementSibling;
+                    }
+                }
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
