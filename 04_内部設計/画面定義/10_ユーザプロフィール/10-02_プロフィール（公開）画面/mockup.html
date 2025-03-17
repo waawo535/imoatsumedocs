@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>いもかつ - ユーザープロフィール</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #35b995;
+            --primary-dark: #2a9479;
+            --accent: #FF6B6B;
+            --text-dark: #333333;
+            --text-light: #6c757d;
+            --light-bg: #f8f9fc;
+            --white: #FFFFFF;
+            --card-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            --border-radius: 12px;
+        }
+        
+        body {
+            font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+        }
+        
+        .navbar {
+            background-color: var(--white);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            padding: 15px 0;
+        }
+        
+        .nav-link {
+            color: var(--text-dark);
+            font-weight: 500;
+            margin: 0 5px;
+            padding: 8px 16px;
+            border-radius: 30px;
+            transition: all 0.3s;
+        }
+        
+        .nav-link:hover {
+            background-color: rgba(53, 185, 149, 0.1);
+            color: var(--primary);
+        }
+        
+        .nav-link.active {
+            background-color: var(--primary);
+            color: white !important;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            border-radius: 30px;
+            padding: 8px 20px;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(53, 185, 149, 0.2);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(53, 185, 149, 0.3);
+        }
+        
+        .btn-outline-primary {
+            color: var(--primary);
+            border-color: var(--primary);
+            border-radius: 30px;
+            padding: 8px 20px;
+            font-weight: 500;
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(53, 185, 149, 0.3);
+        }
+        
+        footer {
+            background-color: var(--white);
+            padding: 20px 0;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            margin-top: auto;
+        }
+        
+        .content-wrapper {
+            padding: 30px 0;
+            flex: 1;
+        }
+        
+        .card {
+            border: none;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .card-header {
+            background-color: var(--white);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 15px 20px;
+            font-weight: 600;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        /* Animation */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* プロフィール専用スタイル */
+        .profile-header {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .profile-cover {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+        
+        .profile-info {
+            padding: 20px;
+            position: relative;
+        }
+        
+        .profile-avatar-container {
+            position: absolute;
+            top: -75px;
+            left: 30px;
+            border: 5px solid white;
+            border-radius: 50%;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .profile-actions {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .profile-name {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-top: 60px;
+            margin-bottom: 5px;
+        }
+        
+        .profile-username {
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+        
+        .profile-bio {
+            margin-bottom: 20px;
+        }
+        
+        .profile-stats {
+            display: flex;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            margin-right: 30px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+        
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .profile-tabs {
+            display: flex;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            padding-bottom: 5px;
+        }
+        
+        .profile-tab {
+            padding: 12px 20px;
+            background-color: white;
+            border-radius: 30px;
+            color: var(--text-dark);
+            margin-right: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .profile-tab.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .profile-tab:hover:not(.active) {
+            background-color: rgba(53, 185, 149, 0.1);
+            color: var(--primary);
+        }
+        
+        .badge-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .badge-item {
+            text-align: center;
+            width: 80px;
+        }
+        
+        .badge-icon {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(53, 185, 149, 0.1);
+            border-radius: 50%;
+            color: var(--primary);
+        }
+        
+        .badge-name {
+            font-size: 0.8rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .collection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .collection-item {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .collection-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .collection-img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+        
+        .collection-info {
+            padding: 10px;
+            background-color: white;
+        }
+        
+        .collection-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .collection-meta {
+            color: var(--text-light);
+            font-size: 0.8rem;
+        }
+        
+        .rarity-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            background-color: rgba(0,0,0,0.6);
+            color: white;
+        }
+        
+        .rarity-badge.rare {
+            background-color: rgba(255, 107, 107, 0.8);
+        }
+        
+        .rarity-badge.common {
+            background-color: rgba(91, 192, 222, 0.8);
+        }
+        
+        .completion-bar {
+            height: 8px;
+            border-radius: 4px;
+            background-color: rgba(0,0,0,0.05);
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+        
+        .completion-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, #3dd598 100%);
+        }
+        
+        .post-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .post-grid-item {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .post-grid-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .post-grid-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .post-grid-info {
+            padding: 10px;
+            background-color: white;
+        }
+        
+        .post-grid-text {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .post-grid-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-light);
+            font-size: 0.8rem;
+        }
+        
+        .tag-list {
+            margin-bottom: 15px;
+        }
+        
+        .filter-tag {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 0 5px 5px 0;
+            background-color: rgba(53, 185, 149, 0.1);
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+        
+        .filter-tag:hover, .filter-tag.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .map-preview {
+            height: 250px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            margin-bottom: 15px;
+            background: url('/api/placeholder/800/400') center/cover no-repeat;
+            position: relative;
+        }
+        
+        .map-marker {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--primary);
+            border: 3px solid white;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+        
+        .map-marker:hover {
+            transform: scale(1.2);
+        }
+        
+        .map-marker.rare {
+            background-color: #FF6B6B;
+        }
+        
+        .map-marker.common {
+            background-color: #5BC0DE;
+        }
+        
+        .section-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+        
+        .trophy-count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 8px;
+            background-color: rgba(53, 185, 149, 0.1);
+            color: var(--primary);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .achievement-item {
+            display: flex;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: var(--border-radius);
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+        
+        .achievement-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .achievement-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(53, 185, 149, 0.1);
+            color: var(--primary);
+            border-radius: 50%;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .achievement-info {
+            flex-grow: 1;
+        }
+        
+        .achievement-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        
+        .achievement-desc {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* レベルと経験値バー */
+        .level-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-left: 10px;
+        }
+        
+        .experience-bar {
+            height: 8px;
+            border-radius: 4px;
+            background-color: rgba(0,0,0,0.05);
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .experience-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, #3dd598 100%);
+        }
+        
+        .level-info {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-light);
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">いもかつ</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-home"></i> ホーム</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-map-marker-alt"></i> マップ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-book"></i> 図鑑</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-users"></i> コミュニティ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-calendar-alt"></i> イベント</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <div class="dropdown">
+                        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle"></i> イモ好き太郎
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item active" href="#"><i class="fas fa-user"></i> プロフィール</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog"></i> 設定</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> ログアウト</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="content-wrapper">
+        <div class="container">
+            <!-- プロフィールヘッダー -->
+            <div class="card profile-header fade-in">
+                <img src="/api/placeholder/1200/400" class="profile-cover" alt="カバー画像">
+                <div class="profile-info">
+                    <div class="profile-avatar-container">
+                        <img src="/api/placeholder/150/150" class="profile-avatar" alt="プロフィール画像">
+                    </div>
+                    <h1 class="profile-name">イモ好き太郎<span class="level-badge">Lv.15</span></h1>
+                    <div class="profile-username">@imo_taro</div>
+                    <div class="profile-bio">
+                        <p>東京在住のイモムシ愛好家。主にアゲハチョウの幼虫を観察・飼育しています。休日は公園や森でイモムシ探し。写真撮影も趣味です。</p>
+                    </div>
+                    
+                    <div class="experience-bar">
+                        <div class="experience-progress" style="width: 75%;"></div>
+                    </div>
+                    <div class="level-info">
+                        <span>経験値: 750/1000</span>
+                        <span>次のレベルまで: 250</span>
+                    </div>
+                    
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">128</div>
+                            <div class="stat-label">発見数</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">56</div>
+                            <div class="stat-label">種類</div>
+                        </div>
+                    </div>
+                    
+                    <div class="tag-list">
+                        <div class="filter-tag">蝶類</div>
+                        <div class="filter-tag">飼育</div>
+                        <div class="filter-tag">アゲハ</div>
+                        <div class="filter-tag">東京</div>
+                        <div class="filter-tag">写真撮影</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- タブナビゲーション -->
+            <div class="profile-tabs fade-in">
+                <button class="profile-tab active" data-tab="collection">コレクション</button>
+                <button class="profile-tab" data-tab="achievements">実績・バッジ</button>
+                <button class="profile-tab" data-tab="discoveries">発見マップ</button>
+                <button class="profile-tab" data-tab="stats">統計</button>
+            </div>
+            
+            <!-- コレクションタブ -->
+            <div class="tab-content active" id="collection">
+                <div class="card fade-in">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <div>
+                            <i class="fas fa-book me-2"></i>イモムシ図鑑
+                        </div>
+                        <div>
+                            <span class="text-muted small me-3">登録したイモムシ: 35匹</span>
+                            <div class="dropdown d-inline-block">
+                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                    <i class="fas fa-sort me-1"></i>並び替え
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item active" href="#"><i class="fas fa-calendar-alt me-2"></i>発見日（新しい順）</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-sort-alpha-down me-2"></i>名前順</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-star me-2"></i>レア度順</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="collection-grid">
+                            <div class="collection-item">
+                                <div class="rarity-badge rare">レア</div>
+                                <img src="/api/placeholder/150/150" class="collection-img" alt="イモムシ画像">
+                                <div class="collection-info">
+                                    <div class="collection-name">ミヤマカラスアゲハ</div>
+                                    <div class="collection-meta">2025/2/12 発見</div>
+                                </div>
+                            </div>
+                            <div class="collection-item">
+                                <div class="rarity-badge common">一般</div>
+                                <img src="/api/placeholder/150/150" class="collection-img" alt="イモムシ画像">
+                                <div class="collection-info">
+                                    <div class="collection-name">モンシロチョウ</div>
+                                    <div class="collection-meta">2025/3/1 発見</div>
+                                </div>
+                            </div>
+                            <div class="collection-item">
+                                <div class="rarity-badge common">一般</div>
+                                <img src="/api/placeholder/150/150" class="collection-img" alt="イモムシ画像">
+                                <div class="collection-info">
+                                    <div class="collection-name">アゲハ</div>
+                                    <div class="collection-meta">2025/3/8 発見</div>
+                                </div>
+                            </div>
+                            <div class="collection-item">
+                                <div class="rarity-badge rare">レア</div>
+                                <img src="/api/placeholder/150/150" class="collection-img" alt="イモムシ画像">
+                                <div class="collection-info">
+                                    <div class="collection-name">オオゴマダラ</div>
+                                    <div class="collection-meta">2025/1/15 発見</div>
+                                </div>
+                            </div>
+                            <div class="collection-item">
+                                <div class="rarity-badge common">一般</div>
+                                <img src="/api/placeholder/150/150" class="collection-img" alt="イモムシ画像">
+                                <div class="collection-info">
+                                    <div class="collection-name">クロアゲハ</div>
+                                    <div class="collection-meta">2025/2/23 発見</div>
+                                </div>
+                            </div>
+                            <div class="collection-item">
+                                <div class="rarity-badge common">一般</div>
+                                <img src="/api/placeholder/150/150" class="collection-img" alt="イモムシ画像">
+                                <div class="collection-info">
+                                    <div class="collection-name">ナミアゲハ</div>
+                                    <div class="collection-meta">2025/2/18 発見</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-3">
+                            <button class="btn btn-outline-primary">もっと見る</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 投稿タブ -->
+            <div class="tab-content" id="posts">
+                <div class="card fade-in">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <div>
+                            <i class="fas fa-newspaper me-2"></i>投稿
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-filter me-1"></i>フィルター
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item active" href="#"><i class="fas fa-globe me-2"></i>すべての投稿</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-image me-2"></i>写真のみ</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-question-circle me-2"></i>質問のみ</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-star me-2"></i>いいねが多い順</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="post-grid">
+                            <div class="post-grid-item">
+                                <img src="/api/placeholder/250/200" class="post-grid-img" alt="投稿画像">
+                                <div class="post-grid-info">
+                                    <div class="post-grid-text">今日はアゲハの幼虫を発見！美しい緑色の体にオレンジと黒の斑点が特徴的です。</div>
+                                    <div class="post-grid-meta">
+                                        <span><i class="far fa-heart"></i> 24</span>
+                                        <span><i class="far fa-comment"></i> 8</span>
+                                        <span>2025/3/15</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="post-grid-item">
+                                <img src="/api/placeholder/250/200" class="post-grid-img" alt="投稿画像">
+                                <div class="post-grid-info">
+                                    <div class="post-grid-text">オオゴマダラの飼育方法について質問です。適切な飼育環境はどのようにすればよいでしょうか？</div>
+                                    <div class="post-grid-meta">
+                                        <span><i class="far fa-heart"></i> 18</span>
+                                        <span><i class="far fa-comment"></i> 12</span>
+                                        <span>2025/3/10</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="post-grid-item">
+                                <img src="/api/placeholder/250/200" class="post-grid-img" alt="投稿画像">
+                                <div class="post-grid-info">
+                                    <div class="post-grid-text">今週末の「春のイモムシ探し」イベント、一緒に参加する方募集中です！東京・新宿御苑に集合予定。</div>
+                                    <div class="post-grid-meta">
+                                        <span><i class="far fa-heart"></i> 32</span>
+                                        <span><i class="far fa-comment"></i> 15</span>
+                                        <span>2025/3/5</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="post-grid-item">
+                                <img src="/api/placeholder/250/200" class="post-grid-img" alt="投稿画像">
+                                <div class="post-grid-info">
+                                    <div class="post-grid-text">モンシロチョウの孵化の瞬間を捉えました！小さな卵から命が誕生する感動の瞬間です。</div>
+                                    <div class="post-grid-meta">
+                                        <span><i class="far fa-heart"></i> 45</span>
+                                        <span><i class="far fa-comment"></i> 22</span>
+                                        <span>2025/2/28</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-3">
+                            <button class="btn btn-outline-primary">もっと見る</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 実績・バッジタブ -->
+            <div class="tab-content" id="achievements">
+                <div class="card fade-in">
+                    <div class="card-header">
+                        <i class="fas fa-award me-2"></i>獲得バッジ<span class="trophy-count">12</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="badge-area">
+                            <div class="badge-item">
+                                <div class="badge-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="badge-name">初心者卒業</div>
+                            </div>
+                            <div class="badge-item">
+                                <div class="badge-icon">
+                                    <i class="fas fa-camera"></i>
+                                </div>
+                                <div class="badge-name">フォトグラファー</div>
+                            </div>
+                            <div class="badge-item">
+                                <div class="badge-icon">
+                                    <i class="fas fa-bug"></i>
+                                </div>
+                                <div class="badge-name">アゲハマスター</div>
+                            </div>
+                            <div class="badge-item">
+                                <div class="badge-icon">
+                                    <i class="fas fa-map-marked-alt"></i>
+                                </div>
+                                <div class="badge-name">探検家</div>
+                            </div>
+                            <div class="badge-item">
+                                <div class="badge-icon">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <div class="badge-name">イベント参加</div>
+                            </div>
+                            <div class="badge-item">
+                                <div class="badge-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="badge-name">コミュニティ貢献</div>
+                            </div>
+                            <div class="badge-item">
+                                <div class="badge-icon">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                                <div class="badge-name">レア発見</div>
+                            </div>
+                            <div class="badge-item">
+                                <div class="badge-icon">
+                                    <i class="fas fa-seedling"></i>
+                                </div>
+                                <div class="badge-name">育成マスター</div>
+                            </div>
+                        </div>
+                        
+                        <h5 class="section-title mt-4">最近の実績</h5>
+                        <div class="achievement-item">
+                            <div class="achievement-icon">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <div class="achievement-info">
+                                <div class="achievement-title">発見マスター</div>
+                                <div class="achievement-desc">100種類以上のイモムシを発見</div>
+                                <div class="small text-muted">2025/3/12 達成</div>
+                            </div>
+                        </div>
+                        <div class="achievement-item">
+                            <div class="achievement-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <div class="achievement-info">
+                                <div class="achievement-title">人気者</div>
+                                <div class="achievement-desc">投稿が100いいねを獲得</div>
+                                <div class="small text-muted">2025/3/5 達成</div>
+                            </div>
+                        </div>
+                        <div class="achievement-item">
+                            <div class="achievement-icon">
+                                <i class="fas fa-comment"></i>
+                            </div>
+                            <div class="achievement-info">
+                                <div class="achievement-title">会話の達人</div>
+                                <div class="achievement-desc">50件以上のコメントを投稿</div>
+                                <div class="small text-muted">2025/2/28 達成</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 発見マップタブ -->
+            <div class="tab-content" id="discoveries">
+                <div class="card fade-in">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <div>
+                            <i class="fas fa-map-marked-alt me-2"></i>発見マップ
+                        </div>
+                        <div>
+                            <button class="btn btn-sm btn-outline-primary me-2">
+                                <i class="fas fa-filter me-1"></i>フィルター
+                            </button>
+                            <button class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-search-location me-1"></i>エリアで検索
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="map-preview">
+                            <!-- マーカーの例（実際はAPIで動的に配置） -->
+                            <div class="map-marker common" style="top: 30%; left: 20%;"></div>
+                            <div class="map-marker common" style="top: 40%; left: 35%;"></div>
+                            <div class="map-marker rare" style="top: 60%; left: 70%;"></div>
+                            <div class="map-marker common" style="top: 50%; left: 50%;"></div>
+                            <div class="map-marker rare" style="top: 25%; left: 65%;"></div>
+                            <div class="map-marker common" style="top: 75%; left: 40%;"></div>
+                        </div>
+                        
+                        <h5 class="section-title">最近の発見</h5>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>イモムシ</th>
+                                        <th>発見日</th>
+                                        <th>場所</th>
+                                        <th>詳細</th>
+                                    </tr>
+                                    <tr>
+                                        <td>埼玉県</td>
+                                        <td>11</td>
+                                        <td>8</td>
+                                        <td>2025/1/15</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>アゲハ</td>
+                                        <td>2025/3/15</td>
+                                        <td>東京都新宿区</td>
+                                        <td><a href="#" class="btn btn-sm btn-outline-primary">詳細</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>モンシロチョウ</td>
+                                        <td>2025/3/10</td>
+                                        <td>東京都世田谷区</td>
+                                        <td><a href="#" class="btn btn-sm btn-outline-primary">詳細</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>オオゴマダラ</td>
+                                        <td>2025/3/5</td>
+                                        <td>神奈川県鎌倉市</td>
+                                        <td><a href="#" class="btn btn-sm btn-outline-primary">詳細</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>ミヤマカラスアゲハ</td>
+                                        <td>2025/2/28</td>
+                                        <td>東京都練馬区</td>
+                                        <td><a href="#" class="btn btn-sm btn-outline-primary">詳細</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 統計タブ -->
+            <div class="tab-content" id="stats">
+                <div class="card fade-in">
+                    <div class="card-header">
+                        <i class="fas fa-chart-bar me-2"></i>統計データ
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <h5 class="section-title">イモムシ種類別割合</h5>
+                                <div style="height: 250px; background-color: #f1f1f1; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                    <span class="text-muted">円グラフが表示されます</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <h5 class="section-title">月別発見数</h5>
+                                <div style="height: 250px; background-color: #f1f1f1; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                    <span class="text-muted">棒グラフが表示されます</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h5 class="section-title mt-2">活動統計</h5>
+                        <div class="row">
+                            <div class="col-md-3 col-6 mb-3">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <h3 class="mb-1">128</h3>
+                                        <div class="text-muted small">発見総数</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-6 mb-3">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <h3 class="mb-1">56</h3>
+                                        <div class="text-muted small">種類数</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-6 mb-3">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <h3 class="mb-1">15</h3>
+                                        <div class="text-muted small">レア種発見</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-6 mb-3">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <h3 class="mb-1">875</h3>
+                                        <div class="text-muted small">いいね獲得</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h5 class="section-title mt-3">地域別発見数</h5>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>地域</th>
+                                        <th>発見数</th>
+                                        <th>種類数</th>
+                                        <th>最終発見日</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>東京都</td>
+                                        <td>78</td>
+                                        <td>32</td>
+                                        <td>2025/3/15</td>
+                                    </tr>
+                                    <tr>
+                                        <td>神奈川県</td>
+                                        <td>24</td>
+                                        <td>18</td>
+                                        <td>2025/3/5</td>
+                                    </tr>
+                                    <tr>
+                                        <td>千葉県</td>
+                                        <td>15</td>
+                                        <td>12</td>
+                                        <td>2025/2/20</td>
+                                    </tr>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center text-muted">
+                    <p class="mb-0">&copy; 2025 いもかつ All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // タブ切り替え機能
+            const tabs = document.querySelectorAll('.profile-tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // すべてのタブを非アクティブにする
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // クリックされたタブをアクティブにする
+                    this.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // フィルタータグの選択
+            const filterTags = document.querySelectorAll('.filter-tag');
+            filterTags.forEach(tag => {
+                tag.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                });
+            });
+            
+            // ツールチップの初期化（Bootstrapを使用している場合）
+            if (typeof bootstrap !== 'undefined') {
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
