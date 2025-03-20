@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>いもかつ - 新しいパスワード設定</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #35b995;
+            --primary-dark: #2a9479;
+            --accent: #FF6B6B;
+            --text-dark: #333333;
+            --text-light: #6c757d;
+            --light-bg: #f8f9fc;
+            --white: #FFFFFF;
+            --card-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            --border-radius: 12px;
+        }
+        
+        body {
+            font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            border-radius: 30px;
+            padding: 8px 20px;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(53, 185, 149, 0.2);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(53, 185, 149, 0.3);
+        }
+        
+        .btn-outline-primary {
+            color: var(--primary);
+            border-color: var(--primary);
+            border-radius: 30px;
+            padding: 8px 20px;
+            font-weight: 500;
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(53, 185, 149, 0.3);
+        }
+        
+        .reset-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 40px;
+            margin: 60px auto;
+            max-width: 500px;
+            border: none;
+        }
+        
+        .form-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+        
+        .form-title::after {
+            content: "";
+            display: block;
+            width: 50px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+            margin: 15px auto 0;
+        }
+        
+        .form-control {
+            border-radius: 10px;
+            padding: 12px 15px;
+            border: 1px solid rgba(0,0,0,0.1);
+            background-color: var(--light-bg);
+        }
+        
+        .form-control:focus {
+            box-shadow: 0 0 0 3px rgba(53, 185, 149, 0.2);
+            border-color: var(--primary);
+        }
+        
+        .form-label {
+            font-weight: 600;
+            margin-top: 10px;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+        
+        .input-group-text {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px 0 0 10px;
+        }
+        
+        .reset-text {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            text-align: center;
+            margin-top: 15px;
+        }
+        
+        footer {
+            background-color: var(--white);
+            padding: 20px 0;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            margin-top: auto;
+        }
+        
+        /* Animation */
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .reset-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .submit-button {
+            width: 100%;
+        }
+        
+        .password-strength {
+            height: 6px;
+            border-radius: 3px;
+            margin-top: 5px;
+            background-color: #e9ecef;
+            overflow: hidden;
+        }
+        
+        .password-strength-bar {
+            height: 100%;
+            border-radius: 3px;
+            width: 0;
+            transition: width 0.3s ease;
+        }
+        
+        .strength-weak {
+            width: 25%;
+            background-color: #dc3545;
+        }
+        
+        .strength-medium {
+            width: 50%;
+            background-color: #ffc107;
+        }
+        
+        .strength-strong {
+            width: 75%;
+            background-color: #3dd598;
+        }
+        
+        .strength-very-strong {
+            width: 100%;
+            background-color: #20c997;
+        }
+        
+        .password-feedback {
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        
+        .password-toggle {
+            cursor: pointer;
+            color: var(--text-light);
+            transition: color 0.2s;
+        }
+        
+        .password-toggle:hover {
+            color: var(--primary);
+        }
+        
+        .transition {
+            display: grid;
+            justify-content: center;
+        }
+        
+        .change-password {
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Reset Password Form Section -->
+    <div class="container fade-in">
+        <div class="reset-card">
+            <h2 class="form-title">新しいパスワード設定</h2>
+            
+            <div class="text-center mb-4">
+                <p>新しいパスワードを入力してください</p>
+            </div>
+            
+            <form>
+                <div class="mb-3">
+                    <label for="password" class="form-label">新しいパスワード</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="password" placeholder="8文字以上で入力">
+                    </div>
+                    <small class="text-muted">※パスワードは8文字以上で、英字・数字を含めてください</small>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="password-confirm" class="form-label">パスワード（確認用）</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="password-confirm" placeholder="同じパスワードを再入力">
+                    </div>
+                </div>
+                
+                <div class="transition">
+                    <div class="change-password d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg submit-button">パスワードを変更する</button>
+                    </div>
+                    
+                    <p class="reset-text mt-4">
+                        <a href="#" class="text-primary"><i class="fas fa-arrow-left me-1"></i> ログイン画面に戻る</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

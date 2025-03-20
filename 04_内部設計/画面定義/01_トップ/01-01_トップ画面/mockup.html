@@ -26,38 +26,6 @@
             line-height: 1.6;
         }
         
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.8rem;
-            color: var(--primary);
-            letter-spacing: -0.5px;
-        }
-        
-        .navbar {
-            background-color: var(--white);
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-            padding: 15px 0;
-        }
-        
-        .nav-link {
-            color: var(--text-dark);
-            font-weight: 500;
-            margin: 0 5px;
-            padding: 8px 16px;
-            border-radius: 30px;
-            transition: all 0.3s;
-        }
-        
-        .nav-link:hover {
-            background-color: rgba(53, 185, 149, 0.1);
-            color: var(--primary);
-        }
-        
-        .nav-link.active {
-            background-color: var(--primary);
-            color: white !important;
-        }
-        
         .btn-primary {
             background-color: var(--primary);
             border-color: var(--primary);
@@ -289,43 +257,6 @@
             z-index: 2;
         }
         
-        footer {
-            background-color: var(--white);
-            padding: 60px 0 30px;
-            margin-top: 80px;
-            border-top: 1px solid rgba(0,0,0,0.05);
-        }
-        
-        .footer-title {
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
-        
-        .footer-title::after {
-            content: "";
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 30px;
-            height: 2px;
-            background: var(--primary);
-            border-radius: 1px;
-        }
-        
-        .footer-link {
-            color: var(--text-light);
-            text-decoration: none;
-            transition: all 0.2s;
-            display: block;
-            margin-bottom: 0.8rem;
-        }
-        
-        .footer-link:hover {
-            color: var(--primary);
-            transform: translateX(5px);
-        }
-        
         .social-icon {
             display: inline-flex;
             align-items: center;
@@ -360,27 +291,36 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        
+        /* 今すぐ始めるボタンセクション */
+        .cta-section {
+            padding: 60px 0;
+            background-color: var(--light-bg);
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .cta-button {
+            background: linear-gradient(135deg, #35b995 0%, #3dd598 100%);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            box-shadow: 0 10px 20px rgba(53, 185, 149, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(53, 185, 149, 0.4);
+            color: white;
+        }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">いもかつ</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                </ul>
-                <div class="d-flex">
-                    <a href="#" class="btn btn-outline-primary me-2"><i class="fas fa-user-plus"></i> 新規登録</a>
-                    <a href="#" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> ログイン</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="container fade-in">
@@ -424,24 +364,6 @@
                                 <p>イモムシの発見場所を記録し、マップ上で視覚化。地域ごとの分布や季節変化を他のユーザーと共有できます。</p>
                             </div>
                         </div>
-                        <div class="col-md-6 mb-4">
-                            <div class="feature-card">
-                                <div class="feature-icon">
-                                    <i class="fas fa-users"></i>
-                                </div>
-                                <h3>コミュニティ</h3>
-                                <p>同じ趣味を持つ仲間と発見情報を共有。質問や観察記録の投稿など、活発な交流ができるプラットフォームです。</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-4">
-                            <div class="feature-card">
-                                <div class="feature-icon">
-                                    <i class="fas fa-calendar-check"></i>
-                                </div>
-                                <h3>シーズナルイベント</h3>
-                                <p>季節ごとの特別イベントに参加して、限定バッジを獲得。仲間と一緒に季節特有のイモムシ探しを楽しめます。</p>
-                            </div>
-                        </div>
                     </div>
                 </section>
 
@@ -480,68 +402,21 @@
                     </div>
                 </section>
             </div>
-
-                <!-- Current Event -->
-                <section class="mb-5">
-                    <h2 class="section-title">開催中のイベント</h2>
-                    <div class="event-card">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h5 class="mb-0">春の新芽イベント</h5>
-                            <span class="badge bg-success rounded-pill px-3">開催中</span>
-                        </div>
-                        <p class="small mb-3">春限定のイモムシを見つけよう！特別なバッジをゲットできるチャンス！緑の芽吹く季節ならではの発見を楽しみましょう。</p>
-                        <div class="d-flex justify-content-between align-items-center mb-3 small text-muted">
-                            <span><i class="fas fa-calendar"></i> 3/1 - 3/31</span>
-                            <span><i class="fas fa-users"></i> 324人参加中</span>
-                        </div>
-                        <a href="#" class="btn btn-primary">参加する</a>
-                    </div>
-                </section>
-            </div>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer>
+    <!-- 今すぐ始めるボタンセクション -->
+    <section class="cta-section">
         <div class="container">
-            <div class="row">
-                <div class="col-md-4 mb-4 mb-md-0">
-                    <div class="mt-4">
-                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-2 mb-4 mb-md-0">
-                    <h5 class="footer-title">探索する</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="footer-link">ホーム</a></li>
-                        <li><a href="#" class="footer-link">マップ</a></li>
-                        <li><a href="#" class="footer-link">図鑑</a></li>
-                        <li><a href="#" class="footer-link">コミュニティ</a></li>
-                        <li><a href="#" class="footer-link">イベント</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-2 mb-4 mb-md-0">
-                    <h5 class="footer-title">サポート</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="footer-link">ヘルプセンター</a></li>
-                        <li><a href="#" class="footer-link">よくある質問</a></li>
-                        <li><a href="#" class="footer-link">お問い合わせ</a></li>
-                        <li><a href="#" class="footer-link">プライバシーポリシー</a></li>
-                        <li><a href="#" class="footer-link">利用規約</a></li>
-                    </ul>
-                </div>
-            </div>
-            <hr class="my-4">
-            <div class="row">
-                <div class="col-12 text-center text-muted">
-                    <p class="mb-0">&copy; 2025 いもかつ All Rights Reserved.</p>
+            <div class="row justify-content-center">
+                <div class="col-md-8 text-center">
+                    <h2 class="mb-4 fw-bold">イモ活を始めてみませんか？</h2>
+                    <p class="mb-5">仲間と一緒にイモムシ観察を楽しみましょう。あなたの発見が図鑑を豊かにします。</p>
+                    <a href="#" class="btn cta-button"><i class="fas fa-user-plus me-2"></i>今すぐ始める</a>
                 </div>
             </div>
         </div>
-    </footer>
+    </section>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>

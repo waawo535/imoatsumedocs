@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>いもかつ - ログイン</title>
+    <title>いもかつ - パスワード再設定</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -24,6 +24,9 @@
             background-color: var(--light-bg);
             color: var(--text-dark);
             line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         
         .btn-primary {
@@ -57,13 +60,13 @@
             box-shadow: 0 6px 15px rgba(53, 185, 149, 0.3);
         }
         
-        .login-card {
+        .reset-card {
             background-color: var(--white);
             border-radius: var(--border-radius);
             box-shadow: var(--card-shadow);
             padding: 40px;
             margin: 60px auto;
-            max-width: 450px;
+            max-width: 500px;
             border: none;
         }
         
@@ -110,56 +113,7 @@
             border-radius: 10px 0 0 10px;
         }
         
-        .social-login {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        
-        .social-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            margin: 0 10px;
-            font-size: 1.2rem;
-            color: white;
-            transition: all 0.3s;
-        }
-        
-        .social-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-        }
-        
-        .btn-google {
-            background-color: #DB4437;
-        }
-        
-        .btn-twitter {
-            background-color: #1DA1F2;
-        }
-        
-        .btn-facebook {
-            background-color: #4267B2;
-        }
-        
-        .btn-line {
-            background-color: #00C300;
-        }
-        
-        .login-container {
-            display: flex;
-            justify-content: center;
-        }
-        
-        .login {
-            width: 200px;
-        }
-        
-        .login-text {
+        .reset-text {
             font-size: 0.9rem;
             color: var(--text-light);
             text-align: center;
@@ -185,23 +139,13 @@
             font-size: 0.9rem;
         }
         
-        .social-icon {
-            display: inline-flex;
-            align-items: center;
+        .send-container {
+            display: flex;
             justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(53, 185, 149, 0.1);
-            color: var(--primary);
-            margin-right: 10px;
-            transition: all 0.3s;
         }
         
-        .social-icon:hover {
-            background: var(--primary);
-            color: white;
-            transform: translateY(-3px);
+        .send {
+            width: 200px;
         }
         
         /* Animation */
@@ -214,55 +158,33 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .forgot-password {
-            text-align: right;
-            margin-bottom: 20px;
-        }
-        
-        .forgot-password a {
-            color: var(--text-light);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-        }
-        
-        .forgot-password a:hover {
-            color: var(--primary);
+        .submit-button {
+            width: 100%;
         }
     </style>
 </head>
 <body>
 
-
-    <!-- Login Form Section -->
+    <!-- Reset Password Form Section -->
     <div class="container fade-in">
-        <div class="login-card">
-            <h2 class="form-title">ログイン</h2>
+        <div class="reset-card">
+            <h2 class="form-title">パスワード再設定</h2>
+            
+            <div class="text-center mb-4">
+                <p>アカウントに登録されているメールアドレスを入力してください。パスワード再設定用のリンクをお送りします。</p>
+            </div>
             
             <form>
-                <div class="mb-3">
+                <div class="mb-4">
                     <label for="email" class="form-label">メールアドレス</label>
                     <div class="input-group">
                         <input type="email" class="form-control" id="email" placeholder="例: name@example.com">
                     </div>
                 </div>
                 
-                <div class="mb-3">
-                    <label for="password" class="form-label">パスワード</label>
-                    <div class="input-group">
-                        <input type="password" class="form-control" id="password" placeholder="パスワードを入力">
-                    </div>
-                </div>
-                
-                <div class="d-flex justify-content-between mb-4">
-                    <div class="forgot-password">
-                        <a href="#">パスワードをお忘れですか？</a>
-                    </div>
-                </div>
-                
-                <div class="login-container">
-                    <div class="login d-grid gap-2">
-                        <button type="submit" class="btn btn-primary btn-lg">ログイン</button>
+                <div class="send-container">
+                    <div class="send d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg submit-button">送信</button>
                     </div>
                 </div>
                 
@@ -270,23 +192,8 @@
                     <span>または</span>
                 </div>
                 
-                <div class="social-login">
-                    <a href="#" class="social-btn btn-google">
-                        <i class="fab fa-google"></i>
-                    </a>
-                    <a href="#" class="social-btn btn-twitter">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="social-btn btn-facebook">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="social-btn btn-line">
-                        <i class="fab fa-line"></i>
-                    </a>
-                </div>
-                
-                <p class="login-text mt-4">
-                    アカウントをお持ちでない方は <a href="#" class="text-primary">新規登録</a> してください
+                <p class="reset-text">
+                    ログイン情報を思い出しましたか？ <a href="#" class="text-primary">ログイン</a> 
                 </p>
             </form>
         </div>
