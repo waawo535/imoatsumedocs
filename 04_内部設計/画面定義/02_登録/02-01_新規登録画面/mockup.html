@@ -26,38 +26,6 @@
             line-height: 1.6;
         }
         
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.8rem;
-            color: var(--primary);
-            letter-spacing: -0.5px;
-        }
-        
-        .navbar {
-            background-color: var(--white);
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-            padding: 15px 0;
-        }
-        
-        .nav-link {
-            color: var(--text-dark);
-            font-weight: 500;
-            margin: 0 5px;
-            padding: 8px 16px;
-            border-radius: 30px;
-            transition: all 0.3s;
-        }
-        
-        .nav-link:hover {
-            background-color: rgba(53, 185, 149, 0.1);
-            color: var(--primary);
-        }
-        
-        .nav-link.active {
-            background-color: var(--primary);
-            color: white !important;
-        }
-        
         .btn-primary {
             background-color: var(--primary);
             border-color: var(--primary);
@@ -213,6 +181,15 @@
             font-size: 0.9rem;
         }
         
+        .transition {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .submit-button {
+            width: 250px;
+        }
+        
         .steps-indicator {
             display: flex;
             justify-content: center;
@@ -251,43 +228,6 @@
         
         .step:last-child::after {
             display: none;
-        }
-        
-        footer {
-            background-color: var(--white);
-            padding: 60px 0 30px;
-            margin-top: 80px;
-            border-top: 1px solid rgba(0,0,0,0.05);
-        }
-        
-        .footer-title {
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
-        
-        .footer-title::after {
-            content: "";
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 30px;
-            height: 2px;
-            background: var(--primary);
-            border-radius: 1px;
-        }
-        
-        .footer-link {
-            color: var(--text-light);
-            text-decoration: none;
-            transition: all 0.2s;
-            display: block;
-            margin-bottom: 0.8rem;
-        }
-        
-        .footer-link:hover {
-            color: var(--primary);
-            transform: translateX(5px);
         }
         
         .social-icon {
@@ -368,11 +308,11 @@
                         </label>
                     </div>
                 </div>
-                
-                <div class="d-grid gap-2">
-                    <a href="#" class="btn btn-primary btn-lg">認証コードを送信する</a>
+                <div class="transition">
+                    <div class="submit-button d-grid gap-2">
+                        <a href="#" class="btn btn-primary btn-lg">認証コードを送信</a>
+                    </div>
                 </div>
-                
                 <div class="divider">
                     <span>または</span>
                 </div>
