@@ -26,39 +26,8 @@
             line-height: 1.6;
         }
         
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.8rem;
-            color: var(--primary);
-            letter-spacing: -0.5px;
-        }
-        
-        .navbar {
-            background-color: var(--white);
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-            padding: 15px 0;
-        }
-        
-        .nav-link {
-            color: var(--text-dark);
-            font-weight: 500;
-            margin: 0 5px;
-            padding: 8px 16px;
-            border-radius: 30px;
-            transition: all 0.3s;
-        }
-        
-        .nav-link:hover {
-            background-color: rgba(53, 185, 149, 0.1);
-            color: var(--primary);
-        }
-        
-        .nav-link.active {
-            background-color: var(--primary);
-            color: white !important;
-        }
-        
         .btn-primary {
+            width: 200px;
             background-color: var(--primary);
             border-color: var(--primary);
             border-radius: 30px;
@@ -152,6 +121,10 @@
             margin-bottom: 30px;
         }
         
+        .submit-button{
+            justify-content: end;
+        }
+        
         .step {
             width: 15px;
             height: 15px;
@@ -197,44 +170,7 @@
             display: none;
         }
         
-        footer {
-            background-color: var(--white);
-            padding: 60px 0 30px;
-            margin-top: 80px;
-            border-top: 1px solid rgba(0,0,0,0.05);
-        }
-        
-        .footer-title {
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
-        
-        .footer-title::after {
-            content: "";
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 30px;
-            height: 2px;
-            background: var(--primary);
-            border-radius: 1px;
-        }
-        
-        .footer-link {
-            color: var(--text-light);
-            text-decoration: none;
-            transition: all 0.2s;
-            display: block;
-            margin-bottom: 0.8rem;
-        }
-        
-        .footer-link:hover {
-            color: var(--primary);
-            transform: translateX(5px);
-        }
-        
-        .social-icon {
+          .social-icon {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -265,39 +201,6 @@
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">いもかつ</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-home"></i> ホーム</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-map-marker-alt"></i> マップ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-book"></i> 図鑑</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-users"></i> コミュニティ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-calendar-alt"></i> イベント</a>
-                    </li>
-                </ul>
-                <div class="d-flex">
-                    <a href="#" class="btn btn-outline-primary me-2 active"><i class="fas fa-user-plus"></i> 新規登録</a>
-                    <a href="#" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> ログイン</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
     <!-- Profile Form Section -->
     <div class="container fade-in">
         <div class="profile-card">
@@ -309,17 +212,12 @@
                 <div class="step active"></div>
             </div>
             
-            <div class="text-center mb-4">
-                <p>コミュニティでの表示情報を設定しましょう</p>
-            </div>
-            
             <form>
                 <div class="mb-3">
                     <label for="username" class="form-label">ユーザー名</label>
                     <div class="input-group">
                         <input type="text" class="form-control" id="username" placeholder="例: イモムシハンター">
                     </div>
-                    <small class="text-muted">※コミュニティで表示される名前です</small>
                 </div>
                 
                 <div class="mb-3">
@@ -333,63 +231,15 @@
                 <div class="mb-4">
                     <label for="bio" class="form-label">自己紹介</label>
                     <textarea class="form-control" id="bio" placeholder="あなたの自己紹介を書いてください（500文字以内）"></textarea>
-                    <small class="text-muted">※イモムシへの興味や活動などを書くと、同じ趣味の仲間が見つかりやすくなります</small>
                 </div>
                 
-                <div class="d-grid gap-2">
+                <div class="submit-button d-grid gap-2">
                     <button type="submit" class="btn btn-primary btn-lg">登録</button>
-                </div>
-                
-                <div class="text-center mt-4">
-                    <a href="#" class="text-primary">
-                        <i class="fas fa-arrow-left"></i> 戻る
-                    </a>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 mb-4 mb-md-0">
-                    <div class="mt-4">
-                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-2 mb-4 mb-md-0">
-                    <h5 class="footer-title">探索する</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="footer-link">ホーム</a></li>
-                        <li><a href="#" class="footer-link">マップ</a></li>
-                        <li><a href="#" class="footer-link">図鑑</a></li>
-                        <li><a href="#" class="footer-link">コミュニティ</a></li>
-                        <li><a href="#" class="footer-link">イベント</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-2 mb-4 mb-md-0">
-                    <h5 class="footer-title">サポート</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="footer-link">ヘルプセンター</a></li>
-                        <li><a href="#" class="footer-link">よくある質問</a></li>
-                        <li><a href="#" class="footer-link">お問い合わせ</a></li>
-                        <li><a href="#" class="footer-link">プライバシーポリシー</a></li>
-                        <li><a href="#" class="footer-link">利用規約</a></li>
-                    </ul>
-                </div>
-            </div>
-            <hr class="my-4">
-            <div class="row">
-                <div class="col-12 text-center text-muted">
-                    <p class="mb-0">&copy; 2025 いもかつ All Rights Reserved.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
