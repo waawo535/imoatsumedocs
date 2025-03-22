@@ -29,38 +29,6 @@
             flex-direction: column;
         }
         
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.8rem;
-            color: var(--primary);
-            letter-spacing: -0.5px;
-        }
-        
-        .navbar {
-            background-color: var(--white);
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-            padding: 15px 0;
-        }
-        
-        .nav-link {
-            color: var(--text-dark);
-            font-weight: 500;
-            margin: 0 5px;
-            padding: 8px 16px;
-            border-radius: 30px;
-            transition: all 0.3s;
-        }
-        
-        .nav-link:hover {
-            background-color: rgba(53, 185, 149, 0.1);
-            color: var(--primary);
-        }
-        
-        .nav-link.active {
-            background-color: var(--primary);
-            color: white !important;
-        }
-        
         .btn-primary {
             background-color: var(--primary);
             border-color: var(--primary);
@@ -244,12 +212,6 @@
             background-color: var(--primary-dark);
         }
         
-        footer {
-            background-color: var(--white);
-            padding: 20px 0;
-            border-top: 1px solid rgba(0,0,0,0.05);
-        }
-        
         /* Animation */
         .fade-in {
             animation: fadeIn 0.5s ease-in-out;
@@ -317,38 +279,6 @@
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">いもかつ</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-home"></i> ホーム</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#"><i class="fas fa-map-marker-alt"></i> マップ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-book"></i> 図鑑</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-users"></i> コミュニティ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-calendar-alt"></i> イベント</a>
-                    </li>
-                </ul>
-                <div class="d-flex">
-                    <a href="#" class="btn btn-outline-primary me-2"><i class="fas fa-user-plus"></i> 新規登録</a>
-                    <a href="#" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> ログイン</a>
-                </div>
-            </div>
-        </div>
-    </nav>
 
     <!-- Map Container -->
     <div id="map-container">
@@ -401,22 +331,7 @@
             </div>
         </div>
         
-        <!-- Add Discovery Button -->
-        <button class="add-discovery-btn" data-bs-toggle="tooltip" data-bs-placement="left" title="新しい発見を追加">
-            <i class="fas fa-plus"></i>
-        </button>
     </div>
-
-    <!-- Footer -->
-    <footer class="mt-auto">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center text-muted">
-                    <p class="mb-0">&copy; 2025 いもかつ All Rights Reserved.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
