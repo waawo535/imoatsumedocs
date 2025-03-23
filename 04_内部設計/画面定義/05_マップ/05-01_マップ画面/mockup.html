@@ -1,380 +1,354 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>いもかつ - イモムシマップ</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #35b995;
-            --primary-dark: #2a9479;
-            --accent: #FF6B6B;
-            --text-dark: #333333;
-            --text-light: #6c757d;
-            --light-bg: #f8f9fc;
-            --white: #FFFFFF;
-            --card-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            --border-radius: 12px;
-        }
-        
-        body {
-            font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif;
-            background-color: var(--light-bg);
-            color: var(--text-dark);
-            line-height: 1.6;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .btn-primary {
-            background-color: var(--primary);
-            border-color: var(--primary);
-            border-radius: 30px;
-            padding: 8px 20px;
-            font-weight: 500;
-            box-shadow: 0 4px 10px rgba(53, 185, 149, 0.2);
-        }
-        
-        .btn-primary:hover {
-            background-color: var(--primary-dark);
-            border-color: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(53, 185, 149, 0.3);
-        }
-        
-        .btn-outline-primary {
-            color: var(--primary);
-            border-color: var(--primary);
-            border-radius: 30px;
-            padding: 8px 20px;
-            font-weight: 500;
-        }
-        
-        .btn-outline-primary:hover {
-            background-color: var(--primary);
-            border-color: var(--primary);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(53, 185, 149, 0.3);
-        }
-        
-        #map-container {
-            flex: 1;
-            position: relative;
-            width: 100%;
-            height: calc(100vh - 130px); /* 画面全体からナビゲーションとフッターの高さを引く */
-        }
-        
-        #caterpillar-map {
-            width: 100%;
-            height: 100%;
-            border-radius: var(--border-radius);
-            box-shadow: var(--card-shadow);
-        }
-        
-        .map-controls {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 10;
-            background-color: white;
-            border-radius: var(--border-radius);
-            padding: 15px;
-            box-shadow: var(--card-shadow);
-            max-width: 350px;
-            width: 100%;
-        }
-        
-        .map-filter {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 10;
-            background-color: white;
-            border-radius: var(--border-radius);
-            padding: 15px;
-            box-shadow: var(--card-shadow);
-            max-width: 350px;
-            width: 100%;
-        }
-        
-        .privacy-level-selector {
-            margin-top: 15px;
-        }
-        
-        .privacy-option {
-            display: inline-block;
-            padding: 8px 12px;
-            margin-right: 10px;
-            background-color: #f1f1f1;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .privacy-option.active {
-            background-color: var(--primary);
-            color: white;
-        }
-        
-        .caterpillar-info {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            z-index: 10;
-            background-color: white;
-            border-radius: var(--border-radius);
-            padding: 15px;
-            box-shadow: var(--card-shadow);
-            max-width: 350px;
-            width: auto;
-            display: none; /* Initially hidden, shown when marker is clicked */
-        }
-        
-        .info-close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-            color: var(--text-light);
-        }
-        
-        .caterpillar-image {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: var(--border-radius);
-            margin-bottom: 10px;
-        }
-        
-        .custom-marker {
-            width: 30px;
-            height: 30px;
-            background-color: var(--primary);
-            border-radius: 50%;
-            border: 3px solid white;
-            cursor: pointer;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 14px;
-        }
-        
-        .filter-tag {
-            display: inline-block;
-            padding: 5px 10px;
-            margin: 5px 5px 5px 0;
-            background-color: rgba(53, 185, 149, 0.1);
-            color: var(--primary);
-            border-radius: 20px;
-            font-size: 0.8rem;
-            cursor: pointer;
-        }
-        
-        .filter-tag:hover, .filter-tag.active {
-            background-color: var(--primary);
-            color: white;
-        }
-        
-        .section-title {
-            font-weight: 700;
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            color: var(--text-dark);
-        }
-        
-        .add-discovery-btn {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            z-index: 10;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background-color: var(--primary);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            transition: all 0.3s;
-            border: none;
-        }
-        
-        .add-discovery-btn:hover {
-            transform: scale(1.1);
-            background-color: var(--primary-dark);
-        }
-        
-        /* Animation */
-        .fade-in {
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Custom Map Style */
-        .custom-map {
-            border-radius: var(--border-radius);
-            overflow: hidden;
-        }
-        
-        /* Mock Map Images - For demonstration */
-        .mock-map {
-            background: url('/api/placeholder/1200/800') center/cover no-repeat;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(0,0,0,0.1);
-            font-size: 3rem;
-            font-weight: bold;
-            border-radius: var(--border-radius);
-        }
-        
-        .marker {
-            position: absolute;
-            width: 25px;
-            height: 25px;
-            background-color: var(--primary);
-            border: 3px solid white;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            transition: all 0.3s;
-        }
-        
-        .marker:hover {
-            transform: scale(1.2);
-        }
-        
-        .marker.rare {
-            background-color: #FF6B6B;
-        }
-        
-        .marker.common {
-            background-color: #5BC0DE;
-        }
-        
-        .marker.new {
-            background-color: #F0AD4E;
-            animation: pulse 1.5s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-    </style>
-</head>
-<body>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>いもかつ - イモムシマップ</title>
+		<!-- Leaflet CSS -->
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+		<!-- Leaflet JS -->
+		<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+		<style>
+			:root {
+				--primary: #35b995;
+				--primary-dark: #2a9479;
+				--accent: #FF6B6B;
+				--text-dark: #333333;
+				--text-light: #6c757d;
+				--light-bg: #f8f9fc;
+				--white: #FFFFFF;
+				--card-shadow: 0 10px 20px rgba(0,0,0,0.05);
+				--border-radius: 12px;
+			}
 
-    <!-- Map Container -->
-    <div id="map-container">
-        <div id="caterpillar-map" class="custom-map">
-            <!-- This would be replaced with actual Google Maps API implementation -->
-            <div class="mock-map">
-                <!-- Demo Markers - These would be dynamically generated with API -->
-                <div class="marker common" style="top: 30%; left: 20%;" onclick="showCaterpillarInfo('アゲハモドキ')"></div>
-                <div class="marker common" style="top: 40%; left: 35%;" onclick="showCaterpillarInfo('ウラギンシジミ')"></div>
-                <div class="marker rare" style="top: 60%; left: 70%;" onclick="showCaterpillarInfo('オオゴマダラ')"></div>
-                <div class="marker common" style="top: 50%; left: 50%;" onclick="showCaterpillarInfo('モンシロチョウ')"></div>
-                <div class="marker new" style="top: 25%; left: 65%;" onclick="showCaterpillarInfo('ヤママユ')"></div>
-                <div class="marker rare" style="top: 75%; left: 40%;" onclick="showCaterpillarInfo('ミヤマカラスアゲハ')"></div>
-            </div>
-        </div>
-        
-        <!-- Map Controls -->
-        <div class="map-controls fade-in">
-            <div class="section-title">マップ検索</div>
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="場所、種類、季節など">
-                <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
-            </div>
-            
-            <div class="section-title small mt-3 mb-1">発見日時</div>
-            <div class="filter-tags">
-                <div class="filter-tag active">すべて</div>
-                <div class="filter-tag">今月</div>
-                <div class="filter-tag">今季</div>
-                <div class="filter-tag">今年</div>
-            </div>
-        </div>
-        
-        <!-- Caterpillar Info Panel (shown when marker is clicked) -->
-        <div class="caterpillar-info fade-in" id="caterpillar-info-panel">
-            <div class="info-close" onclick="hideCaterpillarInfo()"><i class="fas fa-times"></i></div>
-            <img id="caterpillar-image" src="/api/placeholder/300/150" class="caterpillar-image" alt="イモムシの写真">
-            <h5 id="caterpillar-name">アゲハモドキ</h5>
-            <div class="mb-2">
-                <span id="caterpillar-date" class="text-muted small"><i class="fas fa-calendar"></i> 2025/3/12</span>
-            </div>
-            <p id="caterpillar-description" class="small mb-2">キアゲハに似た黄色と黒のストライプを持つ、春によく見られるイモムシです。セリ科の植物を好みます。</p>
-            <div class="d-flex align-items-center mb-3">
-                <img src="/api/placeholder/40/40" class="rounded-circle me-2" alt="ユーザーアイコン">
-                <span id="caterpillar-finder" class="small">山田太郎</span>
-            </div>
-            <div class="d-flex justify-content-between">
-                <button class="btn btn-sm btn-outline-primary"><i class="fas fa-book"></i> 図鑑で見る</button>
-                <button class="btn btn-sm btn-outline-primary"><i class="fas fa-directions"></i> ルート案内</button>
-            </div>
-        </div>
-        
-    </div>
+			body {
+				font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+				background-color: var(--light-bg);
+				color: var(--text-dark);
+				line-height: 1.6;
+				height: 100vh;
+				display: flex;
+				flex-direction: column;
+			}
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Demo JavaScript for the mockup functionality
-        function showCaterpillarInfo(name) {
-            const infoPanel = document.getElementById('caterpillar-info-panel');
-            const caterpillarName = document.getElementById('caterpillar-name');
-            
-            caterpillarName.textContent = name;
-            
-            // Show the info panel
-            infoPanel.style.display = 'block';
-        }
-        
-        function hideCaterpillarInfo() {
-            const infoPanel = document.getElementById('caterpillar-info-panel');
-            infoPanel.style.display = 'none';
-        }
-        
-        // Initialize tooltips
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        });
-        
-        // 削除: プライバシーレベル選択の処理
-        
-        // Filter tags
-        const filterTags = document.querySelectorAll('.filter-tag');
-        filterTags.forEach(tag => {
-            tag.addEventListener('click', function() {
-                // Find siblings with the same category (previous element's text)
-                const category = this.previousElementSibling;
-                if (category && category.classList.contains('section-title')) {
-                    let sibling = category.nextElementSibling;
-                    while (sibling && sibling.classList.contains('filter-tag')) {
-                        sibling.classList.remove('active');
-                        sibling = sibling.nextElementSibling;
-                    }
-                }
-                this.classList.add('active');
-            });
-        });
-    </script>
-</body>
+			#map {
+				flex: 1;
+				position: relative;
+				width: 100%;
+				height: calc(100vh - 30px);
+			}
+
+			.map-controls {
+				position: absolute;
+				top: 20px;
+				left: 20px;
+				z-index: 1000;
+				background-color: white;
+				border-radius: var(--border-radius);
+				padding: 15px;
+				box-shadow: var(--card-shadow);
+				max-width: 350px;
+				width: 100%;
+			}
+
+			.section-title {
+				font-weight: 700;
+				font-size: 1.2rem;
+				margin-bottom: 15px;
+				color: var(--text-dark);
+			}
+
+			.btn-primary {
+				background-color: var(--primary);
+				border-color: var(--primary);
+				border-radius: 30px;
+				padding: 8px 20px;
+				font-weight: 500;
+				box-shadow: 0 4px 10px rgba(53, 185, 149, 0.2);
+			}
+
+			.btn-primary:hover {
+				background-color: var(--primary-dark);
+				border-color: var(--primary-dark);
+				transform: translateY(-2px);
+				box-shadow: 0 6px 15px rgba(53, 185, 149, 0.3);
+			}
+
+			.leaflet-control-layers-selector {
+				display: inline-block;
+				padding: 5px 10px;
+				margin: 5px 5px 5px 0;
+				background-color: rgba(53, 185, 149, 0.1);
+				color: var(--primary);
+				border-radius: 20px;
+				font-size: 0.8rem;
+				cursor: pointer;
+			}
+
+			.leaflet-control-layers-selector:hover {
+				background-color: var(--primary);
+				color: white;
+			}
+
+			.leaflet-control-layers-selector.active {
+				background-color: var(--primary);
+				color: white;
+			}
+
+			/* Animation */
+			.fade-in {
+				animation: fadeIn 0.5s ease-in-out;
+			}
+
+			@keyframes fadeIn {
+				from {
+					opacity: 0;
+					transform: translateY(-10px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div id="map">
+			<!-- Map Controls -->
+			<div class="map-controls fade-in">
+				<div class="section-title">マップ検索</div>
+				<div class="input-group mb-3">
+					<input type="text" class="form-control" placeholder="場所、種類、季節など">
+					<button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+				</div>
+				
+				<div class="section-title small mt-3 mb-1">発見日時</div>
+				<div class="leaflet-control-layers-overlays">
+					<div class="leaflet-control-layers-selector active">すべて</div>
+					<div class="leaflet-control-layers-selector">今月</div>
+					<div class="leaflet-control-layers-selector">今季</div>
+					<div class="leaflet-control-layers-selector">今年</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			// 地図の初期化（ズームコントロールを無効化）
+			const map = L.map('map', {
+				zoomControl: false,  // ズームコントロールを無効化
+				minZoom: 5
+			}).setView([35.6895, 139.6917], 13);
+
+			// OpenStreetMapのタイルを表示
+			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+				attribution: ' OpenStreetMap contributors',
+				maxNativeZoom: 19,
+				maxZoom: 22
+			}).addTo(map);
+
+			// マーカーデータの定義
+			const markersData = [
+				{ id: 'ageha1', position: [35.6895, 139.6917], name: 'アゲハチョウ', area: '新宿', date: '2025-03-23', type: 'アゲハチョウ' },
+				{ id: 'ageha2', position: [35.6895, 139.6927], name: 'アゲハチョウ', area: '渋谷', date: '2025-02-15', type: 'アゲハチョウ' },
+				{ id: 'ageha3', position: [35.6895, 139.6937], name: 'アゲハチョウ', area: '原宿', date: '2025-01-10', type: 'アゲハチョウ' },
+				{ id: 'monsiro1', position: [35.6895, 139.6947], name: 'モンシロチョウ', area: '池袋', date: '2025-03-20', type: 'モンシロチョウ' },
+				{ id: 'monsiro2', position: [35.6895, 139.6957], name: 'モンシロチョウ', area: '上野', date: '2025-02-01', type: 'モンシロチョウ' },
+				{ id: 'monsiro3', position: [35.6895, 139.6967], name: 'モンシロチョウ', area: '秋葉原', date: '2025-01-20', type: 'モンシロチョウ' },
+				{ id: 'monsiro4', position: [35.6895, 139.6977], name: 'モンシロチョウ', area: '浅草', date: '2024-12-15', type: 'モンシロチョウ' }
+			];
+
+			// マーカーの作成関数
+			function createMarker(data) {
+				return L.marker(data.position)
+					.bindPopup(`
+						<strong>${data.name}</strong><br>
+						場所: ${data.area}<br>
+						発見日: ${data.date}
+					`);
+			}
+
+			// マーカーとレイヤーの作成
+			const markers = markersData.map(data => createMarker(data));
+			
+			// 現在の日付を取得
+			const now = new Date();
+			const thisMonth = now.getMonth();
+			const thisYear = now.getFullYear();
+
+			// 日付でマーカーをフィルタリング
+			const thisMonthMarkers = markers.filter((_, i) => {
+				const date = new Date(markersData[i].date);
+				return date.getMonth() === thisMonth && date.getFullYear() === thisYear;
+			});
+
+			const thisSeasonMarkers = markers.filter((_, i) => {
+				const date = new Date(markersData[i].date);
+				const monthDiff = (now.getFullYear() - date.getFullYear()) * 12 + now.getMonth() - date.getMonth();
+				return monthDiff <= 3;
+			});
+
+			const thisYearMarkers = markers.filter((_, i) => {
+				const date = new Date(markersData[i].date);
+				return date.getFullYear() === thisYear;
+			});
+
+			// レイヤーグループの定義
+			const layers = {
+				'すべて': L.featureGroup(markers),
+				'今月': L.featureGroup(thisMonthMarkers),
+				'今季': L.featureGroup(thisSeasonMarkers),
+				'今年': L.featureGroup(thisYearMarkers)
+			};
+
+			// 初期状態で「すべて」レイヤーを表示
+			layers['すべて'].addTo(map);
+
+			// 検索機能の実装
+			const searchInput = document.querySelector('.form-control');
+			const searchButton = document.querySelector('.btn-primary');
+
+			function performSearch() {
+				const searchTerm = searchInput.value.toLowerCase();
+				
+				// 現在のアクティブなレイヤーを特定
+				const activeLayerName = Array.from(document.querySelectorAll('.leaflet-control-layers-selector'))
+					.find(btn => btn.classList.contains('active'))
+					.textContent;
+				
+				// 現在のレイヤーを非表示
+				map.removeLayer(layers[activeLayerName]);
+				
+				// 検索条件に合うマーカーをフィルタリング
+				const filteredMarkers = markers.filter((_, i) => {
+					const data = markersData[i];
+					return data.name.toLowerCase().includes(searchTerm) ||
+						data.area.toLowerCase().includes(searchTerm) ||
+						data.type.toLowerCase().includes(searchTerm);
+				});
+				
+				// 検索結果のレイヤーを作成して表示
+				const searchResultLayer = L.featureGroup(filteredMarkers).addTo(map);
+				
+				// マーカーが存在する場合、その範囲に地図を移動
+				if (filteredMarkers.length > 0) {
+					map.fitBounds(searchResultLayer.getBounds());
+				}
+				
+				// 5秒後に元のレイヤーに戻す
+				setTimeout(() => {
+					map.removeLayer(searchResultLayer);
+					layers[activeLayerName].addTo(map);
+				}, 5000);
+			}
+
+			// 検索ボタンのクリックイベント
+			searchButton.addEventListener('click', performSearch);
+
+			// Enterキーでの検索
+			searchInput.addEventListener('keypress', function(e) {
+				if (e.key === 'Enter') {
+					performSearch();
+				}
+			});
+
+			// レイヤー切り替えの処理
+			document.querySelectorAll('.leaflet-control-layers-selector').forEach(button => {
+				button.addEventListener('click', function() {
+					// 全てのレイヤーを一旦非表示
+					Object.values(layers).forEach(layer => map.removeLayer(layer));
+					
+					// クリックされたボタンに対応するレイヤーを表示
+					const layerName = this.textContent;
+					layers[layerName].addTo(map);
+					
+					// ボタンのスタイルを更新
+					document.querySelectorAll('.leaflet-control-layers-selector').forEach(btn => {
+						btn.classList.remove('active');
+					});
+					this.classList.add('active');
+				});
+			});
+
+			// 地図クリックイベント
+			map.on('click', onMapClick);
+
+			// ポップアップ
+			const popup = L.popup();
+
+			// 地図クリック時の処理
+			function onMapClick(e) {
+				popup
+				.setLatLng(e.latlng)
+				.setContent(
+					`<div class="popup-content">
+						<p>ここに情報を追加する</p>
+						<button type='button' class='btn btn-primary add-location-btn' 
+							data-lat="${e.latlng.lat}" data-lng="${e.latlng.lng}">追加</button>
+					</div>`)
+				.openOn(map);
+				
+				// ポップアップ全体にもイベント伝播を止める処理を追加
+				document.querySelector('.popup-content').addEventListener('click', function(e) {
+					e.stopPropagation();
+				});
+				
+				// ポップアップが開いた後にボタンにイベントリスナーを追加
+				document.querySelector('.add-location-btn').addEventListener('click', function(e) {
+					e.stopPropagation();
+					const lat = this.getAttribute('data-lat');
+					const lng = this.getAttribute('data-lng');
+					addNewCaterpillarLocation(lat, lng);
+				});
+			}
+
+			// 新しい発見場所を追加する関数
+			function addNewCaterpillarLocation(lat, lng) {
+
+				// フォームを表示する
+				popup.setContent(`
+					<div class="popup-form">
+						<h5>発見を追加</h5>
+						<form id="caterpillar-form">
+							<div class="mb-2">
+								<label class="form-label">種類</label>
+								<input type="text" class="form-control form-control-sm" id="caterpillar-type">
+							</div>
+							<div class="mb-2">
+								<label class="form-label">場所の説明</label>
+								<input type="text" class="form-control form-control-sm" id="caterpillar-area">
+							</div>
+							<div class="mb-2">
+								<label class="form-label">発見日</label>
+								<input type="date" class="form-control form-control-sm" id="caterpillar-date" value="${new Date().toISOString().split('T')[0]}">
+							</div>
+							<div class="mb-2">
+								<input type="checkbox" class="form-check-input" id="save-to-dictionary" name="save-to-dictionary" checked>
+								<label class="form-check-label" for="save-to-dictionary">図鑑に登録する</label>
+							</div>
+							<button type="button" class="btn btn-primary btn-sm save-caterpillar" 
+									data-lat="${lat}" data-lng="${lng}">保存</button><br>
+							<button type="button" class="btn btn-primary btn-sm save-caterpillar" 
+									data-lat="${lat}" data-lng="${lng}">さらに詳しい情報を追加する</button>
+
+						</form>
+					</div>
+				`);
+				
+				// フォーム送信ボタンにイベントリスナーを追加
+				document.querySelector('.save-caterpillar').addEventListener('click', function() {
+					const type = document.getElementById('caterpillar-type').value;
+					const area = document.getElementById('caterpillar-area').value;
+					const date = document.getElementById('caterpillar-date').value;
+					
+					if (!type || !area) {
+						alert('種類と場所の説明を入力してください');
+						return;
+					}
+					
+					saveCaterpillarData(lat, lng, type, area, date);
+				});
+			}
+		</script>
+	</body>
 </html>
