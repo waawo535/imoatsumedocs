@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>いもかつ - イモムシマップ</title>
+    <title>イモムシ図鑑 - いもかつ</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -24,9 +24,6 @@
             background-color: var(--light-bg);
             color: var(--text-dark);
             line-height: 1.6;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
         }
         
         .navbar-brand {
@@ -92,227 +89,220 @@
             box-shadow: 0 6px 15px rgba(53, 185, 149, 0.3);
         }
         
-        #map-container {
-            flex: 1;
+        .page-header {
+            background: linear-gradient(135deg, #35b995 0%, #3dd598 100%);
+            color: white;
+            padding: 60px 0;
+            margin-bottom: 40px;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
             position: relative;
-            width: 100%;
+        }
+        
+        .search-box {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 20px;
             margin-bottom: 30px;
         }
         
-        #caterpillar-map {
-            width: 100%;
-            height: 100%;
+        .caterpillar-card {
+            background-color: var(--white);
             border-radius: var(--border-radius);
+            overflow: hidden;
             box-shadow: var(--card-shadow);
-        }
-        
-        .map-controls {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 10;
-            background-color: white;
-            border-radius: var(--border-radius);
-            padding: 15px;
-            box-shadow: var(--card-shadow);
-            max-width: 350px;
-            width: 100%;
-        }
-        
-        .map-filter {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 10;
-            background-color: white;
-            border-radius: var(--border-radius);
-            padding: 15px;
-            box-shadow: var(--card-shadow);
-            max-width: 350px;
-            width: 100%;
-        }
-        
-        .privacy-level-selector {
-            margin-top: 15px;
-        }
-        
-        .privacy-option {
-            display: inline-block;
-            padding: 8px 12px;
-            margin-right: 10px;
-            background-color: #f1f1f1;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            cursor: pointer;
+            margin-bottom: 30px;
+            border: none;
             transition: all 0.3s;
+            height: 100%;
         }
         
-        .privacy-option.active {
-            background-color: var(--primary);
-            color: white;
+        .caterpillar-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .caterpillar-img {
+            height: 200px;
+            object-fit: cover;
+            width: 100%;
         }
         
         .caterpillar-info {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            z-index: 10;
-            background-color: white;
-            border-radius: var(--border-radius);
             padding: 15px;
-            box-shadow: var(--card-shadow);
-            max-width: 350px;
-            width: 100%;
-            display: none; /* Initially hidden, shown when marker is clicked */
         }
         
-        .info-close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-            color: var(--text-light);
-        }
-        
-        .caterpillar-image {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: var(--border-radius);
-            margin-bottom: 10px;
-        }
-        
-        .custom-marker {
-            width: 30px;
-            height: 30px;
-            background-color: var(--primary);
-            border-radius: 50%;
-            border: 3px solid white;
-            cursor: pointer;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 14px;
-        }
-        
-        .filter-tag {
-            display: inline-block;
-            padding: 5px 10px;
-            margin: 5px 5px 5px 0;
-            background-color: rgba(53, 185, 149, 0.1);
-            color: var(--primary);
-            border-radius: 20px;
-            font-size: 0.8rem;
-            cursor: pointer;
-        }
-        
-        .filter-tag:hover, .filter-tag.active {
-            background-color: var(--primary);
-            color: white;
-        }
-        
-        .section-title {
+        .caterpillar-name {
             font-weight: 700;
-            font-size: 1.2rem;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             color: var(--text-dark);
         }
         
-        .add-discovery-btn {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            z-index: 10;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background-color: var(--primary);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            transition: all 0.3s;
-            border: none;
+        .caterpillar-location, .caterpillar-date {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
         }
         
-        .add-discovery-btn:hover {
-            transform: scale(1.1);
-            background-color: var(--primary-dark);
+        .badge-container {
+            margin-bottom: 10px;
         }
         
-        footer {
-            background-color: var(--white);
-            padding: 20px 0;
-            border-top: 1px solid rgba(0,0,0,0.05);
-        }
-        
-        /* Animation */
-        .fade-in {
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Custom Map Style */
-        .custom-map {
+        .modal-content {
             border-radius: var(--border-radius);
             overflow: hidden;
         }
         
-        /* Mock Map Images - For demonstration */
-        .mock-map {
-            background: url('/api/placeholder/1200/800') center/cover no-repeat;
+        .modal-header {
+            background: linear-gradient(135deg, #35b995 0%, #3dd598 100%);
+            color: white;
+            border: none;
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .detail-img {
+            max-height: 400px;
+            object-fit: contain;
             width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(0,0,0,0.1);
-            font-size: 3rem;
-            font-weight: bold;
             border-radius: var(--border-radius);
         }
         
-        .marker {
-            position: absolute;
-            width: 25px;
-            height: 25px;
+        .filter-badge {
             background-color: var(--primary);
-            border: 3px solid white;
-            border-radius: 50%;
+            color: white;
+            border-radius: 30px;
+            padding: 5px 15px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .filter-badge i {
+            margin-left: 5px;
             cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .stats-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .stats-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .pagination {
+            margin-top: 20px;
+            justify-content: center;
+        }
+        
+        .page-link {
+            color: var(--primary);
+            border-radius: 50%;
+            margin: 0 5px;
+            border: none;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .page-link:hover {
+            background-color: rgba(53, 185, 149, 0.1);
+            color: var(--primary);
+        }
+        
+        .page-item.active .page-link {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        footer {
+            background-color: var(--white);
+            padding: 60px 0 30px;
+            margin-top: 80px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .footer-title {
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .footer-title::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 1px;
+        }
+        
+        .footer-link {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.2s;
+            display: block;
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-link:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+        
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(53, 185, 149, 0.1);
+            color: var(--primary);
+            margin-right: 10px;
             transition: all 0.3s;
         }
         
-        .marker:hover {
-            transform: scale(1.2);
+        .social-icon:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
         }
         
-        .marker.rare {
-            background-color: #FF6B6B;
+        .empty-state {
+            text-align: center;
+            padding: 60px 0;
         }
         
-        .marker.common {
-            background-color: #5BC0DE;
+        .empty-state-icon {
+            font-size: 5rem;
+            color: rgba(53, 185, 149, 0.2);
+            margin-bottom: 20px;
         }
         
-        .marker.new {
-            background-color: #F0AD4E;
-            animation: pulse 1.5s infinite;
+        /* Animation */
+        .fade-in {            
+            animation: fadeIn 0.8s ease-in-out;
         }
         
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -330,10 +320,10 @@
                         <a class="nav-link" href="#"><i class="fas fa-home"></i> ホーム</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#"><i class="fas fa-map-marker-alt"></i> マップ</a>
+                        <a class="nav-link" href="#"><i class="fas fa-map-marker-alt"></i> マップ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-book"></i> 図鑑</a>
+                        <a class="nav-link active" href="#"><i class="fas fa-book"></i> 図鑑</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#"><i class="fas fa-users"></i> コミュニティ</a>
@@ -343,73 +333,766 @@
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <a href="#" class="btn btn-outline-primary me-2"><i class="fas fa-user-plus"></i> 新規登録</a>
-                    <a href="#" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> ログイン</a>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle"></i> イモ好き太郎
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user"></i> プロフィール</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog"></i> 設定</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> ログアウト</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Map Container -->
-    <div id="map-container" class="container">
-        <div id="caterpillar-map" class="custom-map">
-            <!-- This would be replaced with actual Google Maps API implementation -->
-            <div class="mock-map">
-                <!-- Demo Markers - These would be dynamically generated with API -->
-                <div class="marker common" style="top: 30%; left: 20%;" onclick="showCaterpillarInfo('アゲハモドキ', 'common')"></div>
-                <div class="marker common" style="top: 40%; left: 35%;" onclick="showCaterpillarInfo('ウラギンシジミ', 'common')"></div>
-                <div class="marker rare" style="top: 60%; left: 70%;" onclick="showCaterpillarInfo('オオゴマダラ', 'rare')"></div>
-                <div class="marker common" style="top: 50%; left: 50%;" onclick="showCaterpillarInfo('モンシロチョウ', 'common')"></div>
-                <div class="marker new" style="top: 25%; left: 65%;" onclick="showCaterpillarInfo('ヤママユ', 'new')"></div>
-                <div class="marker rare" style="top: 75%; left: 40%;" onclick="showCaterpillarInfo('ミヤマカラスアゲハ', 'rare')"></div>
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h1 class="display-5 fw-bold">私のイモムシ図鑑</h1>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <button class="btn btn-light btn-lg" data-bs-toggle="modal" data-bs-target="#addCaterpillarModal">
+                        <i class="fas fa-plus-circle"></i> 新しいイモムシを登録
+                    </button>
+                </div>
             </div>
         </div>
-        
-        <!-- Map Controls -->
-        <div class="map-controls fade-in">
-            <div class="section-title">マップ検索</div>
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="場所、種類、季節など">
-                <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
-            </div>
-              <div class="section-title">フィルター</div>
-                    <div class="filter-tags">
-                        <div class="section-title small mt-3 mb-1">発見日時</div>
-                        <div class="filter-tag active">すべて</div>
-                        <div class="filter-tag">今月</div>
-                        <div class="filter-tag">今季</div>
-                        <div class="filter-tag">今年</div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Search and Filter -->
+        <div class="search-box fade-in">
+            <div class="row align-items-center">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="fas fa-search text-muted"></i>
+                        </span>
+                        <input type="text" class="form-control border-start-0" placeholder="イモムシを検索...">
                     </div>
                 </div>
+                <div class="col-md-6 text-md-end">
+                    <button class="btn btn-outline-primary me-2" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse">
+                        <i class="fas fa-filter"></i> フィルター
+                    </button>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline-primary active">
+                            <i class="fas fa-th"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-primary">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapse mt-3" id="filterCollapse">
+                <div class="card card-body border-0">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">発見場所</label>
+                            <select class="form-select">
+                                <option value="">すべて</option>
+                                <option>公園</option>
+                                <option>森林</option>
+                                <option>庭</option>
+                                <option>山</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">発見時期</label>
+                            <select class="form-select">
+                                <option value="">すべて</option>
+                                <option>春 (3-5月)</option>
+                                <option>夏 (6-8月)</option>
+                                <option>秋 (9-11月)</option>
+                                <option>冬 (12-2月)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">色</label>
+                            <select class="form-select">
+                                <option value="">すべて</option>
+                                <option>緑</option>
+                                <option>茶色</option>
+                                <option>黒</option>
+                                <option>黄色</option>
+                                <option>その他</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">並び替え</label>
+                            <select class="form-select">
+                                <option>新しい順</option>
+                                <option>古い順</option>
+                                <option>名前順 (A-Z)</option>
+                                <option>名前順 (Z-A)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <button class="btn btn-primary me-2">
+                            <i class="fas fa-check"></i> 適用
+                        </button>
+                        <button class="btn btn-outline-secondary">
+                            <i class="fas fa-times"></i> リセット
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Active Filters -->
+            <div class="mt-3">
+                <span class="filter-badge">
+                    発見場所: 公園 <i class="fas fa-times"></i>
+                </span>
+                <span class="filter-badge">
+                    色: 緑 <i class="fas fa-times"></i>
+                </span>
+            </div>
         </div>
         
-        <!-- Caterpillar Info Panel (shown when marker is clicked) -->
-        <div class="caterpillar-info fade-in" id="caterpillar-info-panel">
-            <div class="info-close" onclick="hideCaterpillarInfo()"><i class="fas fa-times"></i></div>
-            <img id="caterpillar-image" src="/api/placeholder/300/150" class="caterpillar-image" alt="イモムシの写真">
-            <h5 id="caterpillar-name">アゲハモドキ</h5>
-            <div class="d-flex justify-content-between mb-2">
-                <span id="caterpillar-date" class="text-muted small"><i class="fas fa-calendar"></i> 2025/3/12</span>
+        <div class="row">
+            <!-- Side Stats -->
+            <div class="col-lg-3">
+                <div class="stats-card">
+                    <h5 class="mb-3">図鑑の統計</h5>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span>登録数</span>
+                        <span class="stats-value">16</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span>種類</span>
+                        <span class="stats-value">9</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>獲得バッジ</span>
+                        <span class="stats-value">5</span>
+                    </div>
+                </div>
+                
+                <div class="stats-card">
+                    <h5 class="mb-3">最近の活動</h5>
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-plus-circle text-success me-2"></i>
+                        <div>
+                            <div>アゲハ蝶の幼虫を追加</div>
+                            <small class="text-muted">2時間前</small>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-edit text-primary me-2"></i>
+                        <div>
+                            <div>オオスカシバの情報を編集</div>
+                            <small class="text-muted">昨日</small>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-share-alt text-info me-2"></i>
+                        <div>
+                            <div>コミュニティに投稿</div>
+                            <small class="text-muted">3日前</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stats-card">
+                    <h5 class="mb-3">シーズナルチャレンジ</h5>
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span>春のイモムシ</span>
+                            <small>3/5</small>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: 60%"></div>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-sm btn-outline-primary w-100">詳細を見る</a>
+                </div>
             </div>
-            <p id="caterpillar-description" class="small mb-2">キアゲハに似た黄色と黒のストライプを持つ、春によく見られるイモムシです。セリ科の植物を好みます。</p>
-            <div class="d-flex align-items-center mb-3">
-                <span id="caterpillar-finder" class="small">山田太郎</span>
-            </div>
-            <div class="d-flex justify-content-between">
-                <button class="btn btn-sm btn-outline-primary"><i class="fas fa-book"></i> 図鑑で見る</button>
-                <button class="btn btn-sm btn-outline-primary"><i class="fas fa-directions"></i> ルート案内</button>
+            
+            <!-- Caterpillar Grid -->
+            <div class="col-lg-9">
+                <div class="row">
+                    <!-- Caterpillar Card 1 -->
+                    <div class="col-md-4 mb-4">
+                        <div class="caterpillar-card">
+                            <img src="/api/placeholder/400/300" class="caterpillar-img" alt="アゲハ蝶の幼虫">
+                            <div class="caterpillar-info">
+                                <div class="badge-container">
+                                    <span class="badge bg-success">アゲハチョウ科</span>
+                                    <span class="badge bg-info">春</span>
+                                </div>
+                                <h5 class="caterpillar-name">アゲハ蝶の幼虫</h5>
+                                <p class="caterpillar-location">
+                                    <i class="fas fa-map-marker-alt me-1"></i> 中央公園
+                                </p>
+                                <p class="caterpillar-date">
+                                    <i class="fas fa-calendar-alt me-1"></i> 2025/3/12
+                                </p>
+                                <div class="d-flex justify-content-between mt-3">
+                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#caterpillarDetailModal">
+                                        <i class="fas fa-eye"></i> 詳細
+                                    </button>
+                                    <div>
+                                        <button class="btn btn-sm btn-outline-secondary me-1">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Caterpillar Card 2 -->
+                    <div class="col-md-4 mb-4">
+                        <div class="caterpillar-card">
+                            <img src="/api/placeholder/400/300" class="caterpillar-img" alt="モンシロチョウの幼虫">
+                            <div class="caterpillar-info">
+                                <div class="badge-container">
+                                    <span class="badge bg-success">シロチョウ科</span>
+                                    <span class="badge bg-info">春</span>
+                                </div>
+                                <h5 class="caterpillar-name">モンシロチョウの幼虫</h5>
+                                <p class="caterpillar-location">
+                                    <i class="fas fa-map-marker-alt me-1"></i> 自宅の庭
+                                </p>
+                                <p class="caterpillar-date">
+                                    <i class="fas fa-calendar-alt me-1"></i> 2025/3/8
+                                </p>
+                                <div class="d-flex justify-content-between mt-3">
+                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#caterpillarDetailModal">
+                                        <i class="fas fa-eye"></i> 詳細
+                                    </button>
+                                    <div>
+                                        <button class="btn btn-sm btn-outline-secondary me-1">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Caterpillar Card 3 -->
+                    <div class="col-md-4 mb-4">
+                        <div class="caterpillar-card">
+                            <img src="/api/placeholder/400/300" class="caterpillar-img" alt="オオスカシバの幼虫">
+                            <div class="caterpillar-info">
+                                <div class="badge-container">
+                                    <span class="badge bg-success">スズメガ科</span>
+                                    <span class="badge bg-warning">夏</span>
+                                </div>
+                                <h5 class="caterpillar-name">オオスカシバの幼虫</h5>
+                                <p class="caterpillar-location">
+                                    <i class="fas fa-map-marker-alt me-1"></i> 森林公園
+                                </p>
+                                <p class="caterpillar-date">
+                                    <i class="fas fa-calendar-alt me-1"></i> 2025/2/20
+                                </p>
+                                <div class="d-flex justify-content-between mt-3">
+                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#caterpillarDetailModal">
+                                        <i class="fas fa-eye"></i> 詳細
+                                    </button>
+                                    <div>
+                                        <button class="btn btn-sm btn-outline-secondary me-1">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Caterpillar Card 4 -->
+                    <div class="col-md-4 mb-4">
+                        <div class="caterpillar-card">
+                            <img src="/api/placeholder/400/300" class="caterpillar-img" alt="カラスアゲハの幼虫">
+                            <div class="caterpillar-info">
+                                <div class="badge-container">
+                                    <span class="badge bg-success">アゲハチョウ科</span>
+                                    <span class="badge bg-info">春</span>
+                                </div>
+                                <h5 class="caterpillar-name">カラスアゲハの幼虫</h5>
+                                <p class="caterpillar-location">
+                                    <i class="fas fa-map-marker-alt me-1"></i> 北公園
+                                </p>
+                                <p class="caterpillar-date">
+                                    <i class="fas fa-calendar-alt me-1"></i> 2025/2/15
+                                </p>
+                                <div class="d-flex justify-content-between mt-3">
+                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#caterpillarDetailModal">
+                                        <i class="fas fa-eye"></i> 詳細
+                                    </button>
+                                    <div>
+                                        <button class="btn btn-sm btn-outline-secondary me-1">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Caterpillar Card 5 -->
+                    <div class="col-md-4 mb-4">
+                        <div class="caterpillar-card">
+                            <img src="/api/placeholder/400/300" class="caterpillar-img" alt="ヤママユガの幼虫">
+                            <div class="caterpillar-info">
+                                <div class="badge-container">
+                                    <span class="badge bg-success">ヤママユガ科</span>
+                                    <span class="badge bg-danger">秋</span>
+                                </div>
+                                <h5 class="caterpillar-name">ヤママユガの幼虫</h5>
+                                <p class="caterpillar-location">
+                                    <i class="fas fa-map-marker-alt me-1"></i> 山間部
+                                </p>
+                                <p class="caterpillar-date">
+                                    <i class="fas fa-calendar-alt me-1"></i> 2025/2/3
+                                </p>
+                                <div class="d-flex justify-content-between mt-3">
+                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#caterpillarDetailModal">
+                                        <i class="fas fa-eye"></i> 詳細
+                                    </button>
+                                    <div>
+                                        <button class="btn btn-sm btn-outline-secondary me-1">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Caterpillar Card 6 -->
+                    <div class="col-md-4 mb-4">
+                        <div class="caterpillar-card">
+                            <img src="/api/placeholder/400/300" class="caterpillar-img" alt="オオミズアオの幼虫">
+                            <div class="caterpillar-info">
+                                <div class="badge-container">
+                                    <span class="badge bg-success">ヤママユガ科</span>
+                                    <span class="badge bg-warning">夏</span>
+                                </div>
+                                <h5 class="caterpillar-name">オオミズアオの幼虫</h5>
+                                <p class="caterpillar-location">
+                                    <i class="fas fa-map-marker-alt me-1"></i> 里山
+                                </p>
+                                <p class="caterpillar-date">
+                                    <i class="fas fa-calendar-alt me-1"></i> 2025/1/25
+                                </p>
+                                <div class="d-flex justify-content-between mt-3">
+                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#caterpillarDetailModal">
+                                        <i class="fas fa-eye"></i> 詳細
+                                    </button>
+                                    <div>
+                                        <button class="btn btn-sm btn-outline-secondary me-1">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Caterpillar Card 4 -->
+                    <div class="col-md-4 mb-4">
+                        <div class="caterpillar-card">
+                            <img src="/api/placeholder/400/300" class="caterpillar-img" alt="カラスアゲハの幼虫">
+                            <div class="caterpillar-info">
+                                <div class="badge-container">
+                                    <span class="badge bg-success">アゲハチョウ科</span>
+                                    <span class="badge bg-info">春</span>
+                                </div>
+                                <h5 class="caterpillar-name">カラスアゲハの幼虫</h5>
+                                <p class="caterpillar-location">
+                                    <i class="fas fa-map-marker-alt me-1"></i> 北公園
+                                </p>
+                                <p class="caterpillar-date">
+                                    <i class="fas fa-calendar-alt me-1"></i> 2025/2/15
+                                </p>
+                                <div class="d-flex justify-content-between mt-3">
+                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#caterpillarDetailModal">
+                                        <i class="fas fa-eye"></i> 詳細
+                                    </button>
+                                    <div>
+                                        <button class="btn btn-sm btn-outline-secondary me-1">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Caterpillar Card 5 -->
+                    <div class="col-md-4 mb-4">
+                        <div class="caterpillar-card">
+                            <img src="/api/placeholder/400/300" class="caterpillar-img" alt="ヤママユガの幼虫">
+                            <div class="caterpillar-info">
+                                <div class="badge-container">
+                                    <span class="badge bg-success">ヤママユガ科</span>
+                                    <span class="badge bg-danger">秋</span>
+                                </div>
+                                <h5 class="caterpillar-name">ヤママユガの幼虫</h5>
+                                <p class="caterpillar-location">
+                                    <i class="fas fa-map-marker-alt me-1"></i> 山間部
+                                </p>
+                                <p class="caterpillar-date">
+                                    <i class="fas fa-calendar-alt me-1"></i> 2025/2/3
+                                </p>
+                                <div class="d-flex justify-content-between mt-3">
+                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#caterpillarDetailModal">
+                                        <i class="fas fa-eye"></i> 詳細
+                                    </button>
+                                    <div>
+                                        <button class="btn btn-sm btn-outline-secondary me-1">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Caterpillar Card 6 -->
+                    <div class="col-md-4 mb-4">
+                        <div class="caterpillar-card">
+                            <img src="/api/placeholder/400/300" class="caterpillar-img" alt="オオミズアオの幼虫">
+                            <div class="caterpillar-info">
+                                <div class="badge-container">
+                                    <span class="badge bg-success">ヤママユガ科</span>
+                                    <span class="badge bg-warning">夏</span>
+                                </div>
+                                <h5 class="caterpillar-name">オオミズアオの幼虫</h5>
+                                <p class="caterpillar-location">
+                                    <i class="fas fa-map-marker-alt me-1"></i> 里山
+                                </p>
+                                <p class="caterpillar-date">
+                                    <i class="fas fa-calendar-alt me-1"></i> 2025/1/25
+                                </p>
+                                <div class="d-flex justify-content-between mt-3">
+                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#caterpillarDetailModal">
+                                        <i class="fas fa-eye"></i> 詳細
+                                    </button>
+                                    <div>
+                                        <button class="btn btn-sm btn-outline-secondary me-1">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pagination -->
+                <nav aria-label="ページナビゲーション">
+                    <ul class="pagination">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" aria-label="前">
+                                <i class="fas fa-chevron-left"></i>
+                            </a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="次">
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
-        
-        <!-- Add Discovery Button -->
-        <button class="add-discovery-btn" data-bs-toggle="tooltip" data-bs-placement="left" title="新しい発見を追加">
-            <i class="fas fa-plus"></i>
-        </button>
+    </div>
+    
+    <!-- Detail Modal -->
+    <div class="modal fade" id="caterpillarDetailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">アゲハ蝶の幼虫</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img src="/api/placeholder/600/400" class="detail-img mb-3" alt="アゲハ蝶の幼虫">
+                            <div class="d-flex justify-content-center mt-2">
+                                <div class="btn-group">
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>基本情報</h4>
+                            <table class="table">
+                                <tr>
+                                    <th>名前</th>
+                                    <td>アゲハ蝶の幼虫</td>
+                                </tr>
+                                <tr>
+                                    <th>学名</th>
+                                    <td>Papilio xuthus</td>
+                                </tr>
+                                <tr>
+                                    <th>分類</th>
+                                    <td>アゲハチョウ科</td>
+                                </tr>
+                                <tr>
+                                    <th>発見日</th>
+                                    <td>2025/3/12</td>
+                                </tr>
+                                <tr>
+                                    <th>発見場所</th>
+                                    <td>中央公園</td>
+                                </tr>
+                                <tr>
+                                    <th>サイズ</th>
+                                    <td>約4.5cm</td>
+                                </tr>
+                            </table>
+                            
+                            <h4>メモ</h4>
+                            <p>柑橘類の葉の上で発見。小さな黒い斑点がある緑色のきれいな個体。オスメスの判別は難しいが、サイズから若齢のメスではないかと推測。</p>
+                            
+                            <h4>タグ</h4>
+                            <div>
+                                <span class="badge bg-success">アゲハチョウ科</span>
+                                <span class="badge bg-info">春</span>
+                                <span class="badge bg-primary">緑色</span>
+                                <span class="badge bg-secondary">柑橘類</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h4>生態情報</h4>
+                        <p>アゲハ蝶の幼虫は主に柑橘類の葉を食べます。成長すると緑色から黒と黄色の縞模様に変化し、終齢幼虫になると体長は約5cmになります。蛹になる前に移動し、枝などに糸で体を固定して変態します。</p>
+                        
+                        <h4>活動記録</h4>
+                        <div class="timeline">
+                            <div class="d-flex mb-3">
+                                <div class="me-3">
+                                    <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                        <i class="fas fa-plus"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">登録</h6>
+                                    <p class="text-muted mb-0">2025/3/12 15:30</p>
+                                </div>
+                            </div>
+                            <div class="d-flex mb-3">
+                                <div class="me-3">
+                                    <div class="bg-info text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                        <i class="fas fa-edit"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">メモを追加</h6>
+                                    <p class="text-muted mb-0">2025/3/12 20:45</p>
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="me-3">
+                                    <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                        <i class="fas fa-share-alt"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">コミュニティに共有</h6>
+                                    <p class="text-muted mb-0">2025/3/13 09:15</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">閉じる</button>
+                    <button type="button" class="btn btn-outline-primary">
+                        <i class="fas fa-edit"></i> 編集
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                        <i class="fas fa-share-alt"></i> 共有
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add New Caterpillar Modal -->
+    <div class="modal fade" id="addCaterpillarModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">新しいイモムシを登録</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">名前 <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" placeholder="イモムシの名前を入力">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">分類</label>
+                                    <select class="form-select">
+                                        <option>アゲハチョウ科</option>
+                                        <option>シロチョウ科</option>
+                                        <option>スズメガ科</option>
+                                        <option>ヤママユガ科</option>
+                                        <option>その他</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">発見日 <span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">発見場所 <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" placeholder="発見した場所を入力">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">サイズ (cm)</label>
+                                    <input type="number" class="form-control" placeholder="推定サイズ">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">写真 <span class="text-danger">*</span></label>
+                                    <div class="card p-3 text-center">
+                                        <div class="mb-3">
+                                            <img src="/api/placeholder/300/200" class="img-fluid rounded" alt="プレビュー">
+                                        </div>
+                                        <div class="d-grid">
+                                            <button type="button" class="btn btn-outline-primary">
+                                                <i class="fas fa-upload"></i> 写真をアップロード
+                                            </button>
+                                        </div>
+                                        <small class="text-muted mt-2">JPG, PNG, GIF形式（最大5MB）</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">メモ</label>
+                            <textarea class="form-control" rows="3" placeholder="観察メモを入力してください"></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">タグ</label>
+                            <select class="form-select" multiple>
+                                <option>緑色</option>
+                                <option>茶色</option>
+                                <option>黒色</option>
+                                <option>黄色</option>
+                                <option>春</option>
+                                <option>夏</option>
+                                <option>秋</option>
+                                <option>冬</option>
+                                <option>柑橘類</option>
+                                <option>樹木</option>
+                                <option>草本</option>
+                            </select>
+                            <div class="form-text">Ctrlキーを押しながら複数選択できます</div>
+                        </div>
+                        
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="shareCheck">
+                            <label class="form-check-label" for="shareCheck">
+                                コミュニティに共有する
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">キャンセル</button>
+                    <button type="button" class="btn btn-primary">登録する</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Footer -->
-    <footer class="mt-auto">
+    <footer>
         <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="footer-title">いもかつ</h5>
+                    <p class="text-muted">イモムシ観察を楽しむためのコミュニティプラットフォーム</p>
+                    <div class="mt-4">
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-4 mb-md-0">
+                    <h5 class="footer-title">探索する</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link">ホーム</a></li>
+                        <li><a href="#" class="footer-link">マップ</a></li>
+                        <li><a href="#" class="footer-link">図鑑</a></li>
+                        <li><a href="#" class="footer-link">コミュニティ</a></li>
+                        <li><a href="#" class="footer-link">イベント</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 mb-4 mb-md-0">
+                    <h5 class="footer-title">サポート</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link">ヘルプセンター</a></li>
+                        <li><a href="#" class="footer-link">よくある質問</a></li>
+                        <li><a href="#" class="footer-link">お問い合わせ</a></li>
+                        <li><a href="#" class="footer-link">プライバシーポリシー</a></li>
+                        <li><a href="#" class="footer-link">利用規約</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
             <div class="row">
                 <div class="col-12 text-center text-muted">
                     <p class="mb-0">&copy; 2025 いもかつ All Rights Reserved.</p>
@@ -419,54 +1102,6 @@
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Demo JavaScript for the mockup functionality
-        function showCaterpillarInfo(name, type) {
-            const infoPanel = document.getElementById('caterpillar-info-panel');
-            const caterpillarName = document.getElementById('caterpillar-name');
-            
-            caterpillarName.textContent = name;
-            
-            // Show the info panel
-            infoPanel.style.display = 'block';
-        }
-        
-        function hideCaterpillarInfo() {
-            const infoPanel = document.getElementById('caterpillar-info-panel');
-            infoPanel.style.display = 'none';
-        }
-        
-        // Initialize tooltips
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        });
-        
-        // Privacy level selector
-        const privacyOptions = document.querySelectorAll('.privacy-option');
-        privacyOptions.forEach(option => {
-            option.addEventListener('click', function() {
-                privacyOptions.forEach(opt => opt.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-        
-        // Filter tags
-        const filterTags = document.querySelectorAll('.filter-tag');
-        filterTags.forEach(tag => {
-            tag.addEventListener('click', function() {
-                // Find siblings with the same category (previous element's text)
-                const category = this.previousElementSibling;
-                if (category && category.classList.contains('section-title')) {
-                    let sibling = category.nextElementSibling;
-                    while (sibling && sibling.classList.contains('filter-tag')) {
-                        sibling.classList.remove('active');
-                        sibling = sibling.nextElementSibling;
-                    }
-                }
-                this.classList.add('active');
-            });
-        });
-    </script>
 </body>
 </html>
+                                
